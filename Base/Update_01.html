@@ -1,0 +1,1124 @@
+<!DOCTYPE html>
+<html lang="pt-BR" data-theme="dark"><head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gerenciador de OS - Celulares</title>
+    <style>
+        :root {
+            --primary: #2563eb;
+            --primary-dark: #1d4ed8;
+            --success: #16a34a;
+            --danger: #dc2626;
+            --warning: #d97706;
+            --bg: #f8fafc;
+            --card-bg: #ffffff;
+            --text: #1e293b;
+            --border: #e2e8f0;
+            --input-bg: #ffffff;
+            --tab-devedor-bg: #fee2e2;
+            --tab-devedor-text: #dc2626;
+        }
+
+        [data-theme="dark"] {
+            --primary: #3b82f6;
+            --primary-dark: #2563eb;
+            --success: #22c55e;
+            --danger: #ef4444;
+            --warning: #f59e0b;
+            --bg: #0f172a;
+            --card-bg: #1e293b;
+            --text: #f1f5f9;
+            --border: #334155;
+            --input-bg: #0f172a;
+            --tab-devedor-bg: #7f1d1d;
+            --tab-devedor-text: #fecaca;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg);
+            color: var(--text);
+            padding: 15px;
+            padding-bottom: 80px;
+            transition: background 0.3s, color 0.3s;
+        }
+
+        @media (min-width: 768px) {
+            body {
+                padding: 20px;
+            }
+        }
+
+        /* Tela de Login */
+        #telaLogin {
+            display: flex;
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(15, 23, 42, 0.95);
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            padding: 20px;
+        }
+
+        .login-card {
+            background: var(--card-bg);
+            color: var(--text);
+            padding: 30px;
+            border-radius: 12px;
+            width: 100%;
+            max-width: 400px;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+            text-align: center;
+        }
+
+        .login-card h2 {
+            color: var(--primary);
+            margin-bottom: 5px;
+        }
+
+        .login-card p {
+            color: #64748b;
+            font-size: 0.9rem;
+            margin-bottom: 10px;
+        }
+
+        .login-error {
+            color: var(--danger);
+            font-size: 0.85rem;
+            font-weight: bold;
+            display: none;
+        }
+
+        /* Conteúdo Protegido */
+        #conteudoProtegido {
+            display: none;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        h1 {
+            color: var(--primary);
+            font-size: 1.5rem;
+        }
+
+        @media (min-width: 768px) {
+            h1 {
+                font-size: 1.8rem;
+            }
+        }
+
+        .header-actions {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            padding: 10px 14px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: background 0.2s;
+            font-size: 0.9rem;
+            text-align: center;
+        }
+
+        .btn:hover { background-color: var(--primary-dark); }
+        .btn-danger { background-color: var(--danger); }
+        .btn-danger:hover { background-color: #b91c1c; }
+        .btn-success { background-color: var(--success); }
+        .btn-success:hover { background-color: #15803d; }
+        .btn-warning { background-color: var(--warning); color: white; }
+        .btn-warning:hover { background-color: #b45309; }
+        .btn-secondary { background-color: #64748b; color: white; }
+        .btn-secondary:hover { background-color: #475569; }
+
+        .btn-photo {
+            background-color: #0f172a;
+            color: white;
+            width: 100%;
+            margin-top: 5px;
+            font-size: 0.85rem;
+        }
+        .btn-photo:hover { background-color: #334155; }
+
+        .floating-save {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 999;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+            padding: 12px 18px;
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        @media (min-width: 768px) {
+            .floating-save {
+                padding: 14px 20px;
+                font-size: 1rem;
+            }
+        }
+
+        .tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            border-bottom: 2px solid var(--border);
+            padding-bottom: 10px;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+
+        .tab-btn {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            padding: 10px 15px;
+            font-size: 0.95rem;
+            font-weight: 600;
+            cursor: pointer;
+            color: var(--text);
+            border-radius: 6px;
+            transition: all 0.2s;
+        }
+
+        .tab-btn.active {
+            background-color: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
+
+        /* Estilo especial e colorido para a aba de Devedores */
+        .tab-btn-devedor {
+            background-color: var(--tab-devedor-bg);
+            color: var(--tab-devedor-text);
+            border-color: var(--danger);
+        }
+
+        .tab-btn-devedor.active {
+            background-color: var(--danger);
+            color: white;
+        }
+
+        @media (min-width: 768px) {
+            .tab-btn {
+                padding: 10px 20px;
+                font-size: 1rem;
+            }
+        }
+
+        .badge-contador {
+            background-color: var(--danger);
+            color: white;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: bold;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            margin-left: 0;
+            box-shadow: 0 2px 5px rgba(220, 38, 38, 0.3);
+        }
+
+        @media (min-width: 576px) {
+            .badge-contador {
+                margin-left: auto;
+            }
+        }
+
+        .badge-contador.vazio { background-color: #64748b; box-shadow: none; }
+
+        .tab-content { display: none; }
+        .tab-content.active { display: block; }
+
+        .actions-bar {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        input, textarea, select {
+            padding: 12px 10px;
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            font-size: 1rem;
+            width: 100%;
+            background-color: var(--input-bg);
+            color: var(--text);
+        }
+
+        @media (min-width: 768px) {
+            input, textarea, select {
+                padding: 10px;
+                font-size: 0.95rem;
+            }
+        }
+
+        .search-input { max-width: 100%; }
+        @media (min-width: 768px) {
+            .search-input { max-width: 300px; }
+        }
+
+        .grid-os {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 15px;
+        }
+
+        @media (min-width: 576px) {
+            .grid-os {
+                grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+                gap: 20px;
+            }
+        }
+
+        .os-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 15px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            position: relative;
+        }
+
+        .os-card.vencido {
+            border-color: var(--danger);
+            border-width: 2px;
+            background-color: var(--card-bg);
+        }
+
+        [data-theme="dark"] .os-card.vencido {
+            background-color: #450a0a;
+        }
+
+        .os-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 8px;
+        }
+
+        .os-number { font-weight: bold; color: var(--primary); font-size: 1.1rem; }
+        .os-date { font-size: 0.8rem; color: #64748b; }
+
+        .os-info p { font-size: 0.9rem; margin-bottom: 4px; }
+        .os-info strong { color: var(--text); opacity: 0.8; }
+
+        .badge-vencimento {
+            display: inline-block;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            font-weight: bold;
+            margin-top: 4px;
+        }
+        .badge-atrasado { background-color: #fee2e2; color: #dc2626; }
+        .badge-hoje { background-color: #fef3c7; color: #d97706; }
+        .badge-ok { background-color: #dcfce7; color: #16a34a; }
+
+        [data-theme="dark"] .badge-atrasado { background-color: #7f1d1d; color: #fecaca; }
+        [data-theme="dark"] .badge-hoje { background-color: #78350f; color: #fde68a; }
+        [data-theme="dark"] .badge-ok { background-color: #14532d; color: #bbf7d0; }
+
+        .whatsapp-link {
+            color: #16a34a;
+            text-decoration: none;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            word-break: break-all;
+        }
+        .whatsapp-link:hover { text-decoration: underline; }
+
+        .container-fotos {
+            display: none;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 6px;
+            margin-top: 5px;
+        }
+        .container-fotos.ativa { display: grid; }
+
+        .os-photo {
+            width: 100%;
+            height: 110px;
+            object-fit: cover;
+            border-radius: 6px;
+            border: 1px solid var(--border);
+            cursor: pointer;
+            transition: opacity 0.2s;
+        }
+        .os-photo:hover { opacity: 0.85; }
+
+        .os-actions {
+            display: flex;
+            gap: 6px;
+            margin-top: auto;
+            padding-top: 10px;
+            border-top: 1px solid var(--border);
+            flex-wrap: wrap;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.6);
+            justify-content: center;
+            align-items: center;
+            padding: 10px;
+            z-index: 1000;
+        }
+
+        @media (min-width: 576px) {
+            .modal {
+                padding: 20px;
+            }
+        }
+
+        .modal.active { display: flex; }
+
+        .modal-card {
+            background: var(--card-bg);
+            color: var(--text);
+            padding: 20px;
+            border-radius: 12px;
+            width: 100%;
+            max-width: 500px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            max-height: 95vh;
+            overflow-y: auto;
+            border: 1px solid var(--border);
+        }
+
+        @media (min-width: 768px) {
+            .modal-card {
+                padding: 25px;
+                gap: 15px;
+                max-height: 90vh;
+            }
+        }
+
+        .modal-foto-zoom {
+            background: rgba(0, 0, 0, 0.9);
+            z-index: 2000;
+            flex-direction: column;
+            gap: 15px;
+            align-items: center;
+            justify-content: center;
+        }
+        .modal-foto-zoom img {
+            max-width: 90%;
+            max-height: 75vh;
+            object-fit: contain;
+            border-radius: 8px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.5);
+        }
+
+        .zoom-actions { display: flex; gap: 10px; flex-wrap: wrap; justify-content: center; }
+        .form-group { display: flex; flex-direction: column; gap: 5px; }
+        .form-group label { font-weight: 600; font-size: 0.9rem; }
+    </style>
+</head>
+<body>
+
+<!-- Tela de Login -->
+<div id="telaLogin" style="display: none;">
+    <div class="login-card">
+        <h2>🔒 Área Restrita</h2>
+        <p>Digite seus dados para acessar o Gerenciador</p>
+        <div class="form-group">
+            <label>Usuário</label>
+            <input type="text" id="loginUsuario" placeholder="Seu usuário">
+        </div>
+        <div class="form-group">
+            <label>Senha</label>
+            <input type="password" id="loginSenha" placeholder="Sua senha" onkeypress="verificarEnterLogin(event)">
+        </div>
+        <div id="loginErro" class="login-error" style="display: none;">Usuário ou senha incorretos!</div>
+        <button class="btn" style="width: 100%; margin-top: 5px;" onclick="fazerLogin()">Entrar</button>
+    </div>
+</div>
+
+<!-- Conteúdo Protegido -->
+<div id="conteudoProtegido" style="display: block;">
+    <header>
+        <h1>Gerenciador de OS - Celulares</h1>
+        <div class="header-actions">
+            <button class="btn btn-secondary" onclick="alternarTema()" id="btnTema" title="Alternar Modo Claro/Escuro">☀️ Tema</button>
+            <button class="btn" onclick="abrirModalNova()">+ Nova OS</button>
+            <button class="btn btn-danger" onclick="fazerLogout()">🔒 Sair</button>
+        </div>
+    </header>
+
+    <div class="tabs">
+        <button class="tab-btn" onclick="mudarAba('andamento', this)">Serviços em Andamento</button>
+        <button class="tab-btn tab-btn-devedor active" onclick="mudarAba('devedores', this)">Clientes Devedores</button>
+        <div id="contadorDevedoresBadge" class="badge-contador vazio">🔔 0 clientes devendo</div>
+    </div>
+
+    <div class="actions-bar">
+        <input type="text" id="buscaInput" class="search-input" placeholder="Buscar por nº da OS, cliente, CPF ou aparelho..." onkeyup="renderizarOS()">
+    </div>
+
+    <div id="tab-andamento" class="tab-content">
+        <div id="grid-andamento" class="grid-os"></div>
+    </div>
+
+    <div id="tab-devedores" class="tab-content active">
+        <div id="grid-devedores" class="grid-os"></div>
+    </div>
+</div>
+
+<input type="file" id="inputMaisFotos" accept="image/*" multiple="" style="display: none;" onchange="processarMaisFotos(event)">
+<button class="btn btn-success floating-save" onclick="salvarHTMLAtualizado()">💾 Baixar HTML Atualizado</button>
+
+<!-- Modal de Cadastro / Edição -->
+<div id="modalOS" class="modal">
+    <div class="modal-card">
+        <h2 id="modalTitulo">Nova Ordem de Serviço</h2>
+        <input type="hidden" id="editIndex" value="">
+        
+        <div class="form-group">
+            <label>Nome do Cliente</label>
+            <input type="text" id="clienteNome" placeholder="Ex: João da Silva">
+        </div>
+        <div class="form-group">
+            <label>CPF</label>
+            <input type="text" id="clienteCpf" placeholder="Ex: 000.000.000-00">
+        </div>
+        <div class="form-group">
+            <label>Telefone / WhatsApp</label>
+            <input type="text" id="clienteFone" placeholder="Ex: 5566999999999">
+        </div>
+        <div class="form-group">
+            <label>Modelo do Aparelho</label>
+            <input type="text" id="aparelhoModelo" placeholder="Ex: Samsung Galaxy A52">
+        </div>
+        <div class="form-group">
+            <label>Valor do Serviço (R$)</label>
+            <input type="number" id="valorServico" placeholder="0.00">
+        </div>
+        <div class="form-group">
+            <label>Data Provável de Pagamento</label>
+            <input type="date" id="dataPagamento">
+        </div>
+        <div class="form-group">
+            <label>Garantia</label>
+            <select id="garantiaOS">
+                <option value="Sem Garantia">Sem Garantia</option>
+                <option value="30 Dias">30 Dias</option>
+                <option value="90 Dias">90 Dias</option>
+                <option value="6 Meses">6 Meses</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label>Anotações / Defeito Relatado</label>
+            <textarea id="anotacoes" rows="3" placeholder="Ex: Troca de frontal e conector de carga..."></textarea>
+        </div>
+        <div class="form-group">
+            <label>Fotos do Aparelho (Pode selecionar várias)</label>
+            <input type="file" id="fotosAparelho" accept="image/*" multiple="">
+        </div>
+        <div style="display: flex; gap: 10px; justify-content: flex-end; margin-top: 10px;">
+            <button class="btn btn-danger" onclick="fecharModal()">Cancelar</button>
+            <button class="btn btn-success" onclick="salvarOS()">Salvar OS</button>
+        </div>
+    </div>
+</div>
+
+<!-- Modal Zoom -->
+<div id="modalZoomFoto" class="modal modal-foto-zoom">
+    <img id="imagemZoom" src="" alt="Foto Ampliada">
+    <div class="zoom-actions">
+        <a id="btnBaixarFoto" class="btn btn-success" download="foto_aparelho.jpg">📥 Baixar Original</a>
+        <button class="btn btn-danger" onclick="excluirFotoAtual()">❌ Excluir Esta Foto</button>
+        <button class="btn btn-secondary" onclick="fecharZoom()">Fechar</button>
+    </div>
+</div>
+
+<script id="scriptDados">
+    const USUARIO_CORRETO = "admin";
+    const SENHA_CORRETA = "1234";
+
+    let dadosIniciaisFixos = [];
+
+    // Tema padrão gravado no script para persistir ao baixar o HTML
+    let temaPadraoHtml = "dark";
+
+    let listaOS = JSON.parse(localStorage.getItem('listaOS'));
+    if (!listaOS || listaOS.length === 0) {
+        listaOS = dadosIniciaisFixos;
+        localStorage.setItem('listaOS', JSON.stringify(listaOS));
+    }
+
+    // Gerenciamento de Tema (Claro / Escuro)
+    function carregarTemaSalvo() {
+        const temaSalvo = localStorage.getItem('temaOS') || typeof temaPadraoHtml !== 'undefined' ? temaPadraoHtml : 'light';
+        if (temaSalvo === 'dark') {
+            document.documentElement.setAttribute('data-theme', 'dark');
+            document.getElementById('btnTema').innerText = '☀️ Tema';
+        } else {
+            document.documentElement.removeAttribute('data-theme');
+            document.getElementById('btnTema').innerText = '🌙 Tema';
+        }
+    }
+
+    function alternarTema() {
+        const atual = document.documentElement.getAttribute('data-theme');
+        if (atual === 'dark') {
+            document.documentElement.removeAttribute('data-theme');
+            localStorage.setItem('temaOS', 'light');
+            document.getElementById('btnTema').innerText = '🌙 Tema';
+        } else {
+            document.documentElement.setAttribute('data-theme', 'dark');
+            localStorage.setItem('temaOS', 'dark');
+            document.getElementById('btnTema').innerText = '☀️ Tema';
+        }
+    }
+
+    carregarTemaSalvo();
+
+    let osIdSelecionadoParaFotos = null;
+    let fotoAtualOSId = null;
+    let fotoAtualIndex = null;
+
+    function verificarLoginSessao() {
+        if (sessionStorage.getItem('logado') === 'true') {
+            document.getElementById('telaLogin').style.display = 'none';
+            document.getElementById('conteudoProtegido').style.display = 'block';
+            renderizarOS();
+        } else {
+            document.getElementById('telaLogin').style.display = 'flex';
+            document.getElementById('conteudoProtegido').style.display = 'none';
+        }
+    }
+
+    function fazerLogin() {
+        const u = document.getElementById('loginUsuario').value;
+        const s = document.getElementById('loginSenha').value;
+        const err = document.getElementById('loginErro');
+
+        if (u === USUARIO_CORRETO && s === SENHA_CORRETA) {
+            sessionStorage.setItem('logado', 'true');
+            err.style.display = 'none';
+            document.getElementById('loginUsuario').value = '';
+            document.getElementById('loginSenha').value = '';
+            verificarLoginSessao();
+        } else {
+            err.style.display = 'block';
+        }
+    }
+
+    function fazerLogout() {
+        sessionStorage.removeItem('logado');
+        verificarLoginSessao();
+    }
+
+    function verificarEnterLogin(e) {
+        if (e.key === 'Enter') fazerLogin();
+    }
+
+    verificarLoginSessao();
+
+    function mudarAba(aba, elemento) {
+        document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+        document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+        document.getElementById(`tab-${aba}`).classList.add('active');
+        elemento.classList.add('active');
+    }
+
+    function abrirModalNova() {
+        document.getElementById('modalTitulo').innerText = 'Nova Ordem de Serviço';
+        document.getElementById('editIndex').value = '';
+        limparFormulario();
+        document.getElementById('modalOS').classList.add('active');
+    }
+
+    function abrirModalEditar(id) {
+        const os = listaOS.find(item => item.id === id);
+        if (!os) return;
+
+        document.getElementById('modalTitulo').innerText = `Editar OS: ${os.id}`;
+        document.getElementById('editIndex').value = os.id;
+        
+        document.getElementById('clienteNome').value = os.nome || '';
+        document.getElementById('clienteCpf').value = os.cpf || '';
+        document.getElementById('clienteFone').value = os.fone || '';
+        document.getElementById('aparelhoModelo').value = os.aparelho || '';
+        document.getElementById('valorServico').value = os.valor || '';
+        document.getElementById('dataPagamento').value = os.dataPagamento || '';
+        document.getElementById('garantiaOS').value = os.garantia || 'Sem Garantia';
+        document.getElementById('anotacoes').value = os.anotacoes || '';
+        document.getElementById('fotosAparelho').value = '';
+
+        document.getElementById('modalOS').classList.add('active');
+    }
+
+    function fecharModal() {
+        document.getElementById('modalOS').classList.remove('active');
+        limparFormulario();
+    }
+
+    function limparFormulario() {
+        document.getElementById('clienteNome').value = '';
+        document.getElementById('clienteCpf').value = '';
+        document.getElementById('clienteFone').value = '';
+        document.getElementById('aparelhoModelo').value = '';
+        document.getElementById('valorServico').value = '';
+        document.getElementById('dataPagamento').value = '';
+        document.getElementById('garantiaOS').value = 'Sem Garantia';
+        document.getElementById('anotacoes').value = '';
+        document.getElementById('fotosAparelho').value = '';
+        document.getElementById('editIndex').value = '';
+    }
+
+    function gerarNumeroOS() {
+        return 'OS-' + Math.floor(1000 + Math.random() * 9000);
+    }
+
+    function obterDataAtual() {
+        const agora = new Date();
+        return agora.toLocaleDateString('pt-BR') + ' às ' + agora.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
+    }
+
+    function verificarSeEstaVencido(dataPagamentoStr) {
+        if (!dataPagamentoStr) return false;
+        const hoje = new Date();
+        hoje.setHours(0, 0, 0, 0);
+
+        const partes = dataPagamentoStr.split('-');
+        const dataPag = new Date(partes[0], partes[1] - 1, partes[2]);
+        dataPag.setHours(0, 0, 0, 0);
+
+        return hoje > dataPag;
+    }
+
+    function salvarOS() {
+        const editId = document.getElementById('editIndex').value;
+        const nome = document.getElementById('clienteNome').value;
+        const cpf = document.getElementById('clienteCpf').value;
+        const fone = document.getElementById('clienteFone').value.replace(/\D/g, ''); 
+        const aparelho = document.getElementById('aparelhoModelo').value;
+        const valor = document.getElementById('valorServico').value;
+        const dataPagamento = document.getElementById('dataPagamento').value;
+        const garantia = document.getElementById('garantiaOS').value;
+        const anotacoes = document.getElementById('anotacoes').value;
+        const fotosInput = document.getElementById('fotosAparelho');
+
+        if (!nome || !aparelho) {
+            alert('Preencha pelo menos o nome do cliente e o modelo do aparelho!');
+            return;
+        }
+
+        let fotosNovas = [];
+        let arquivosLidos = 0;
+        const totalArquivos = fotosInput.files ? fotosInput.files.length : 0;
+
+        function finalizarProcessamentoDeFotos() {
+            let fotosFinais = fotosNovas;
+
+            if (editId && fotosNovas.length === 0) {
+                const osExistente = listaOS.find(item => item.id === editId);
+                if (osExistente && osExistente.fotos) fotosFinais = osExistente.fotos;
+                else if (osExistente && osExistente.foto) fotosFinais = [osExistente.foto];
+            } else if (editId && fotosNovas.length > 0) {
+                const osExistente = listaOS.find(item => item.id === editId);
+                let fotosAntigas = [];
+                if (osExistente && osExistente.fotos) fotosAntigas = osExistente.fotos;
+                else if (osExistente && osExistente.foto) fotosAntigas = [osExistente.foto];
+                
+                fotosFinais = fotosAntigas.concat(fotosNovas);
+            }
+
+            let statusAutomatico = 'andamento';
+            if (verificarSeEstaVencido(dataPagamento)) {
+                statusAutomatico = 'devedor';
+            }
+
+            if (editId) {
+                const os = listaOS.find(item => item.id === editId);
+                if (os) {
+                    os.nome = nome;
+                    os.cpf = cpf;
+                    os.fone = fone;
+                    os.aparelho = aparelho;
+                    os.valor = valor ? parseFloat(valor).toFixed(2) : '0.00';
+                    os.dataPagamento = dataPagamento;
+                    os.garantia = garantia;
+                    os.anotacoes = anotacoes;
+                    os.fotos = fotosFinais;
+                    delete os.foto;
+                    if (verificarSeEstaVencido(dataPagamento)) os.status = 'devedor';
+                }
+            } else {
+                const novaOS = {
+                    id: gerarNumeroOS(),
+                    dataCriacao: obterDataAtual(),
+                    nome,
+                    cpf,
+                    fone,
+                    aparelho,
+                    valor: valor ? parseFloat(valor).toFixed(2) : '0.00',
+                    dataPagamento,
+                    garantia,
+                    anotacoes,
+                    fotos: fotosFinais,
+                    status: statusAutomatico
+                };
+                listaOS.push(novaOS);
+            }
+
+            sincronizarStorage();
+            fecharModal();
+            renderizarOS();
+        }
+
+        if (totalArquivos > 0) {
+            Array.from(fotosInput.files).forEach(file => {
+                const reader = new FileReader();
+                reader.readAsDataURL(file);
+                reader.onload = function (e) {
+                    fotosNovas.push(e.target.result);
+                    arquivosLidos++;
+                    if (arquivosLidos === totalArquivos) finalizarProcessamentoDeFotos();
+                }
+            });
+        } else {
+            finalizarProcessamentoDeFotos();
+        }
+    }
+
+    function dispararAdicaoFotos(id) {
+        osIdSelecionadoParaFotos = id;
+        document.getElementById('inputMaisFotos').value = '';
+        document.getElementById('inputMaisFotos').click();
+    }
+
+    function processarMaisFotos(event) {
+        const files = event.target.files;
+        if (!files || files.length === 0 || !osIdSelecionadoParaFotos) return;
+
+        const os = listaOS.find(item => item.id === osIdSelecionadoParaFotos);
+        if (!os) return;
+
+        let novasFotos = [];
+        let lidos = 0;
+        const total = files.length;
+
+        Array.from(files).forEach(file => {
+            const reader = new FileReader();
+            reader.readAsDataURL(file);
+            reader.onload = function(e) {
+                novasFotos.push(e.target.result);
+                lidos++;
+                if (lidos === total) {
+                    if (!os.fotos) os.fotos = [];
+                    os.fotos = os.fotos.concat(novasFotos);
+                    sincronizarStorage();
+                    renderizarOS();
+                    osIdSelecionadoParaFotos = null;
+                }
+            }
+        });
+    }
+
+    function abrirZoom(osId, fotoIndex) {
+        const os = listaOS.find(item => item.id === osId);
+        if (!os) return;
+
+        let listaFotos = os.fotos || (os.foto ? [os.foto] : []);
+        const urlFoto = listaFotos[fotoIndex];
+        if (!urlFoto) return;
+
+        fotoAtualOSId = osId;
+        fotoAtualIndex = fotoIndex;
+
+        const imgZoom = document.getElementById('imagemZoom');
+        const btnBaixar = document.getElementById('btnBaixarFoto');
+
+        imgZoom.src = urlFoto;
+        btnBaixar.href = urlFoto;
+        btnBaixar.download = `${osId}_foto_${fotoIndex + 1}.jpg`;
+
+        document.getElementById('modalZoomFoto').classList.add('active');
+    }
+
+    function fecharZoom() {
+        document.getElementById('modalZoomFoto').classList.remove('active');
+        fotoAtualOSId = null;
+        fotoAtualIndex = null;
+    }
+
+    function excluirFotoAtual() {
+        if (fotoAtualOSId === null && fotoAtualOSId !== 0 || fotoAtualIndex === null) return;
+
+        if (confirm('Tem certeza que deseja excluir esta foto?')) {
+            const os = listaOS.find(item => item.id === fotoAtualOSId);
+            if (os && os.fotos) {
+                os.fotos.splice(fotoAtualIndex, 1);
+                sincronizarStorage();
+                fecharZoom();
+                renderizarOS();
+            }
+        }
+    }
+
+    function sincronizarStorage() {
+        localStorage.setItem('listaOS', JSON.stringify(listaOS));
+    }
+
+    function mudarStatus(id, novoStatus) {
+        const os = listaOS.find(item => item.id === id);
+        if (os) {
+            os.status = novoStatus;
+            sincronizarStorage();
+            renderizarOS();
+        }
+    }
+
+    function excluirOS(id) {
+        if (confirm('Tem certeza que deseja excluir esta Ordem de Serviço?')) {
+            listaOS = listaOS.filter(item => item.id !== id);
+            sincronizarStorage();
+            renderizarOS();
+        }
+    }
+
+    function alternarFotos(id) {
+        const container = document.getElementById(`fotos-container-${id}`);
+        const botao = document.getElementById(`btn-fotos-${id}`);
+        if (container.classList.contains('ativa')) {
+            container.classList.remove('ativa');
+            const total = container.children.length;
+            botao.innerText = `📷 Ver Fotos (${total})`;
+        } else {
+            container.classList.add('ativa');
+            botao.innerText = `🙈 Ocultar Fotos`;
+        }
+    }
+
+    function calcularStatusVencimento(dataPagamentoStr) {
+        if (!dataPagamentoStr) return { texto: 'Data de pagamento não definida', classe: 'badge-ok', vencido: false, tempoFormatado: '' };
+
+        const hoje = new Date();
+        hoje.setHours(0, 0, 0, 0);
+
+        const partes = dataPagamentoStr.split('-');
+        const dataPag = new Date(partes[0], partes[1] - 1, partes[2]);
+        dataPag.setHours(0, 0, 0, 0);
+
+        const diffTempo = hoje - dataPag;
+        const diffDiasTotal = Math.floor(diffTempo / (1000 * 60 * 60 * 24));
+
+        if (diffDiasTotal > 0) {
+            let anos = hoje.getFullYear() - dataPag.getFullYear();
+            let meses = hoje.getMonth() - dataPag.getMonth();
+            let dias = hoje.getDate() - dataPag.getDate();
+
+            if (dias < 0) {
+                meses--;
+                const ultimoMes = new Date(hoje.getFullYear(), hoje.getMonth(), 0);
+                dias += ultimoMes.getDate();
+            }
+            if (meses < 0) {
+                anos--;
+                meses += 12;
+            }
+
+            let partesTexto = [];
+            if (anos > 0) partesTexto.push(`${anos} ano${anos > 1 ? 's' : ''}`);
+            if (meses > 0) partesTexto.push(`${meses} ${meses === 1 ? 'mês' : 'meses'}`);
+            if (dias > 0 || partesTexto.length === 0) partesTexto.push(`${dias} ${dias === 1 ? 'dia' : 'dias'}`);
+
+            let tempoFormatado = partesTexto.join(' e ');
+
+            return { 
+                texto: `⚠️ Vencido há ${tempoFormatado} (${dataPag.toLocaleDateString('pt-BR')})`, 
+                classe: 'badge-atrasado', 
+                vencido: true,
+                tempoFormatado: tempoFormatado
+            };
+        } else if (diffDiasTotal === 0) {
+            return { 
+                texto: `🔔 Vence HOJE (${dataPag.toLocaleDateString('pt-BR')})`, 
+                classe: 'badge-hoje', 
+                vencido: false,
+                tempoFormatado: 'hoje'
+            };
+        } else {
+            const diasFaltando = Math.abs(diffDiasTotal);
+            return { 
+                texto: `✅ Vence em ${diasFaltando} dia(s) (${dataPag.toLocaleDateString('pt-BR')})`, 
+                classe: 'badge-ok', 
+                vencido: false,
+                tempoFormatado: ''
+            };
+        }
+    }
+
+    function renderizarOS() {
+        const termoBusca = document.getElementById('buscaInput').value.toLowerCase();
+        
+        const gridAndamento = document.getElementById('grid-andamento');
+        const gridDevedores = document.getElementById('grid-devedores');
+        
+        gridAndamento.innerHTML = '';
+        gridDevedores.innerHTML = '';
+
+        const totalDevedores = listaOS.filter(os => os.status === 'devedor').length;
+        const badgeContador = document.getElementById('contadorDevedoresBadge');
+        
+        badgeContador.innerText = `🔔 ${totalDevedores} cliente${totalDevedores === 1 ? '' : 's'} devendo`;
+        if (totalDevedores > 0) badgeContador.classList.remove('vazio');
+        else badgeContador.classList.add('vazio');
+
+        const filtradas = listaOS.filter(os => 
+            os.id.toLowerCase().includes(termoBusca) ||
+            os.nome.toLowerCase().includes(termoBusca) ||
+            (os.cpf && os.cpf.toLowerCase().includes(termoBusca)) ||
+            os.aparelho.toLowerCase().includes(termoBusca)
+        );
+
+        filtradas.forEach(os => {
+            const foneFormatado = os.fone ? `+${os.fone}` : '';
+            const infoVencimento = calcularStatusVencimento(os.dataPagamento);
+
+            let dataFormatadaBr = 'Não definida';
+            if (os.dataPagamento) {
+                dataFormatadaBr = os.dataPagamento.split('-').reverse().join('/');
+            }
+
+            let textoMsgZap = `Olá ${os.nome}, tudo bem? Estou entrando em contato referente ao aparelho ${os.aparelho}.`;
+            textoMsgZap += `\n\nServiço realizado: ${os.anotacoes || 'Não especificado'}`;
+            textoMsgZap += `\nValor pendente: R$ ${os.valor || '0,00'}`;
+            if (infoVencimento.vencido) {
+                textoMsgZap += `\nO pagamento está vencido há ${infoVencimento.tempoFormatado} (vencimento em ${dataFormatadaBr}).`;
+            }
+            textoMsgZap += `\n\nPoderia me dar uma posição sobre o acerto? Obrigado!`;
+
+            const linkWhatsapp = os.fone ? `https://wa.me/${os.fone}?text=${encodeURIComponent(textoMsgZap)}` : '#';
+
+            let listaFotos = [];
+            if (os.fotos && Array.isArray(os.fotos)) listaFotos = os.fotos;
+            else if (os.foto) listaFotos = [os.foto];
+
+            const card = document.createElement('div');
+            card.className = `os-card ${os.status === 'devedor' && infoVencimento.vencido ? 'vencido' : ''}`;
+            
+            card.innerHTML = `
+                <div class="os-header">
+                    <div>
+                        <span class="os-number">${os.id}</span>
+                        <div class="os-date">Criado em: ${os.dataCriacao || 'Data antiga'}</div>
+                    </div>
+                    <button class="btn btn-danger" style="padding: 4px 8px; font-size: 0.75rem;" onclick="excluirOS('${os.id}')">Excluir</button>
+                </div>
+                <div class="os-info">
+                    <p><strong>Cliente:</strong> ${os.nome}</p>
+                    <p><strong>CPF:</strong> ${os.cpf || 'Não informado'}</p>
+                    <p><strong>Telefone:</strong> ${os.fone ? `<a href="${linkWhatsapp}" target="_blank" class="whatsapp-link">💬 ${foneFormatado}</a>` : 'Não informado'}</p>
+                    <p><strong>Aparelho:</strong> ${os.aparelho}</p>
+                    <p><strong>Valor:</strong> R$ ${os.valor}</p>
+                    <p><strong>Data Provável de Pagamento:</strong> ${dataFormatadaBr}</p>
+                    ${os.status === 'devedor' ? `<p><strong>Pagamento:</strong> <span class="badge-vencimento ${infoVencimento.classe}">${infoVencimento.texto}</span></p>` : ''}
+                    <p><strong>Garantia:</strong> <span style="color: ${os.garantia === 'Sem Garantia' ? 'var(--danger)' : 'var(--success)'}; font-weight: bold;">${os.garantia}</span></p>
+                    <p><strong>Anotações:</strong> ${os.anotacoes || 'Nenhuma anotação'}</p>
+                </div>
+
+                <div>
+                    ${listaFotos.length > 0 ? `
+                        <button class="btn btn-photo" id="btn-fotos-${os.id}" onclick="alternarFotos('${os.id}')">📷 Ver Fotos (${listaFotos.length})</button>
+                    ` : ''}
+                    <button class="btn" style="background-color: #334155; width: 100%; margin-top: 5px; font-size: 0.85rem;" onclick="dispararAdicaoFotos('${os.id}')">➕ Adicionar Mais Fotos</button>
+                    
+                    <div class="container-fotos" id="fotos-container-${os.id}">
+                        ${listaFotos.map((img, index) => `<img src="${img}" class="os-photo" alt="Foto do aparelho" onclick="abrirZoom('${os.id}',${index})">`).join('')}
+                    </div>
+                </div>
+
+                <div class="os-actions">
+                    <button class="btn btn-secondary" style="font-size: 0.8rem; flex: 1;" onclick="abrirModalEditar('${os.id}')">✏️ Editar</button>
+                    ${os.status === 'andamento' ? 
+                        `<button class="btn btn-warning" style="font-size: 0.8rem; flex: 1;" onclick="mudarStatus('${os.id}', 'devedor')">Mover p/ Devedores</button>` :
+                        `<button class="btn" style="font-size: 0.8rem; flex: 1;" onclick="mudarStatus('${os.id}', 'andamento')">Voltar p/ Andamento</button>`
+                    }
+                </div>
+            `;
+
+            if (os.status === 'andamento') gridAndamento.appendChild(card);
+            else gridDevedores.appendChild(card);
+        });
+    }
+
+    function salvarHTMLAtualizado() {
+        const temaAtualGerado = document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'light';
+        const stringListaAtual = JSON.stringify(listaOS, null, 4);
+        
+        const scriptDados = document.getElementById('scriptDados');
+        if (scriptDados) {
+            let conteudoScript = scriptDados.textContent;
+            
+            // Atualiza a lista de OS
+            conteudoScript = conteudoScript.replace(
+                /let dadosIniciaisFixos\s*=\s*\[[\s\S]*?\];/, 
+                `let dadosIniciaisFixos = ${stringListaAtual};`
+            );
+
+            // Atualiza o tema padrão embutido
+            conteudoScript = conteudoScript.replace(
+                /let temaPadraoHtml\s*=\s*"[^"]*";/,
+                `let temaPadraoHtml = "${temaAtualGerado}";`
+            );
+
+            scriptDados.textContent = conteudoScript;
+        }
+
+        let codigoHtml = '<!DOCTYPE html>\n' + document.documentElement.outerHTML;
+
+        const blob = new Blob([codigoHtml], { type: 'text/html;charset=utf-8' });
+        const link = document.createElement('a');
+        link.href = URL.createObjectURL(blob);
+        link.download = 'gerenciador_os.html';
+        link.click();
+        
+        alert('Sucesso! O arquivo HTML foi baixado com o tema atual e todas as OS gravados permanentemente.');
+    }
+</script>
+
+
+</body></html>
