@@ -754,124 +754,7 @@ html, body { max-width: 100%; overflow-x: hidden; }
         }
 
         // Pre-loaded initial orders
-        const INITIAL_ORDERS = [
-    {
-        "id": "OS-7605",
-        "cliente": "Amanda",
-        "cpf": "",
-        "telefone": "66992402793",
-        "aparelho": "REDMI 13C",
-        "valor": 0,
-        "garantia": "Sem Garantia",
-        "data": "2026-09-28",
-        "dataCriacao": "2026-09-28",
-        "servico": "DEFEITO NA PLACA",
-        "observacoes": "",
-        "status": "sem_conserto",
-        "fotos": []
-    },
-    {
-        "id": "OS-2920",
-        "cliente": "Adriana",
-        "cpf": "",
-        "telefone": "5566999176820",
-        "aparelho": "POCO M5s",
-        "valor": 420,
-        "garantia": "30",
-        "data": "2026-09-28",
-        "dataCriacao": "2026-09-28",
-        "servico": "Troca de display completo\npeça POCO M5S SEM ARO ORIGINAL",
-        "observacoes": "",
-        "status": "pagos",
-        "fotos": []
-    },
-    {
-        "id": "OS-4546",
-        "cliente": "Cleber",
-        "cpf": "",
-        "telefone": "5566992542855",
-        "aparelho": "REDMI 9A",
-        "valor": 40,
-        "garantia": "30",
-        "data": "2026-09-28",
-        "dataCriacao": "2026-09-28",
-        "servico": "Troca de botão power",
-        "observacoes": "",
-        "status": "pagos",
-        "fotos": []
-    },
-    {
-        "id": "OS-1411",
-        "cliente": "Cleber",
-        "cpf": "",
-        "telefone": "5566992542855",
-        "aparelho": "REDMI 13C",
-        "valor": 530,
-        "garantia": "30",
-        "data": "2026-09-25",
-        "dataCriacao": "2026-09-28",
-        "servico": "Troca de display",
-        "observacoes": "",
-        "status": "pagos",
-        "fotos": []
-    },
-    {
-        "id": "OS-1918",
-        "cliente": "Filomeno",
-        "cpf": "",
-        "telefone": "5566992303787",
-        "aparelho": "Samsung A55",
-        "valor": 50,
-        "garantia": "Sem Garantia",
-        "data": "2026-10-05",
-        "servico": "Limpeza Placa de carga",
-        "observacoes": "Revisão agendada para 6 dias.",
-        "status": "devedores",
-        "fotos": []
-    },
-    {
-        "id": "OS-9233",
-        "cliente": "Pedro",
-        "cpf": "",
-        "telefone": "556696380291",
-        "aparelho": "Motorola G22",
-        "valor": 160,
-        "garantia": "30 Dias",
-        "data": "2026-10-05",
-        "servico": "Troca de Display completo",
-        "observacoes": "Tela frontal trocada. Testado touch e brilho.",
-        "status": "pagos",
-        "fotos": []
-    },
-    {
-        "id": "OS-3074",
-        "cliente": "David Oliveira",
-        "cpf": "",
-        "telefone": "5566996729196",
-        "aparelho": "Redmi A3",
-        "valor": 100,
-        "garantia": "Sem Garantia",
-        "data": "2026-10-05",
-        "servico": "Desbloqueio + BROM",
-        "observacoes": "Procedimento de remoção de conta e reparo de firmware.",
-        "status": "devedores",
-        "fotos": []
-    },
-    {
-        "id": "OS-8172",
-        "cliente": "Alex",
-        "cpf": "",
-        "telefone": "559391610693",
-        "aparelho": "Galaxy A12",
-        "valor": 350,
-        "garantia": "30 Dias",
-        "data": "2026-09-19",
-        "servico": "Troca de Display + Desbloqueio",
-        "observacoes": "Prazo vencido há 5 dias. Redirecionado automaticamente para Devedores.",
-        "status": "devedores",
-        "fotos": []
-    }
-];
+        const INITIAL_ORDERS = [];
 
         // Global Application State
         let orders = [];
@@ -1099,7 +982,7 @@ html, body { max-width: 100%; overflow-x: hidden; }
             if (isAuthenticated) {
                 await loadOrdersFromSupabase(true);
             } else {
-                orders = [...INITIAL_ORDERS];
+                orders = [];
                 renderOrders();
                 updateFinancialStats();
                 document.getElementById('authModal').classList.remove('hidden');
@@ -1165,7 +1048,7 @@ html, body { max-width: 100%; overflow-x: hidden; }
                     renderOrders();
                     updateFinancialStats(false);
                 } else {
-                    orders = [...INITIAL_ORDERS];
+                    orders = [];
                     saveOrdersLocally();
                     renderOrders();
                     updateFinancialStats(false);
