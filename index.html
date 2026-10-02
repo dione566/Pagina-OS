@@ -156,9 +156,25 @@ html, body { max-width: 100%; overflow-x: hidden; }
                 <!-- Save HTML Button -->
                 <button onclick="salvarHTMLAtualizado()" title="Salvar todas as OS no banco online" class="flex items-center gap-2 px-3 py-2 text-xs sm:text-sm font-medium rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white shadow-sm transition-all active:scale-95">
                     <i class="fa-solid fa-floppy-disk"></i>
-                    <span class="hidden md:inline">💾 Baixar HTML Atualizado</span>
+                    <span class="hidden md:inline">Sincronizar</span>
                     <span class="md:hidden">Salvar</span>
                 </button>
+
+                <!-- Backup: Exportar / Importar (somente após login) -->
+                <div id="backupActions" class="flex items-center gap-1.5">
+                    <button id="exportDataBtn" onclick="exportOrdersData()" title="Exportar OS para arquivo JSON"
+                        class="flex items-center gap-2 px-3 py-2 text-xs sm:text-sm font-medium rounded-lg bg-sky-600 hover:bg-sky-500 text-white shadow-sm transition-all active:scale-95">
+                        <i class="fa-solid fa-file-export"></i>
+                        <span class="hidden md:inline">Exportar</span>
+                    </button>
+                    <button id="importDataBtn" onclick="openImportData()" title="Importar OS de arquivo JSON"
+                        class="flex items-center gap-2 px-3 py-2 text-xs sm:text-sm font-medium rounded-lg bg-violet-600 hover:bg-violet-500 text-white shadow-sm transition-all active:scale-95">
+                        <i class="fa-solid fa-file-import"></i>
+                        <span class="hidden md:inline">Importar</span>
+                    </button>
+                    <input id="importDataInput" type="file" accept=".json,application/json" class="hidden"
+                           onchange="importOrdersData(event)">
+                </div>
 
                 <!-- Theme Toggle Button -->
                 <button id="themeToggleBtn" onclick="toggleTheme()" title="Alternar Tema Claro/Escuro" class="p-2.5 rounded-lg border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-800 hover:bg-slate-100 dark:hover:bg-slate-700 text-slate-600 dark:text-slate-300 transition-all">
@@ -448,7 +464,7 @@ html, body { max-width: 100%; overflow-x: hidden; }
                 <i class="fa-solid fa-user-lock"></i>
             </div>
             <h3 class="text-lg font-bold text-slate-800 dark:text-slate-100">Gerenciador de OS - Celulares</h3>
-            <p class="text-xs text-slate-500 dark:text-slate-400">Entre com o e-mail e a senha cadastrados no Supabase</p>
+            <p class="text-xs text-slate-500 dark:text-slate-400">Entre com o e-mail e a senha cadastrados</p>
             
             <form onsubmit="event.preventDefault(); loginUser();" class="space-y-3">
                 <input type="email" id="authUser" placeholder="E-mail" class="w-full px-3 py-2 text-center text-sm rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-slate-800 dark:text-slate-100 focus:ring-2 focus:ring-sky-500 focus:outline-none">
@@ -470,7 +486,7 @@ html, body { max-width: 100%; overflow-x: hidden; }
         // Mantém o aplicativo disponível mesmo quando a página for reaberta sem internet.
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', () => {
-                navigator.serviceWorker.register('./sw.js?v=4')
+                navigator.serviceWorker.register('./sw.js?v=5')
                     .then(() => console.log('Service Worker offline ativo.'))
                     .catch(err => console.warn('Service Worker não foi registrado:', err));
             });
@@ -1777,6 +1793,111 @@ html, body { max-width: 100%; overflow-x: hidden; }
             closeWhatsAppModal();
         }
 
+        // ==================== EXPORTAR / IMPORTAR ====================
+        function requireAuthenticatedForBackup() {
+            if (!isAuthenticated || !currentUserId) {
+                showToast("Faça login para usar Exportar/Importar.", "error");
+                document.getElementById('authModal')?.classList.remove('hidden');
+                return false;
+            }
+            return true;
+        }
+
+        function exportOrdersData() {
+            if (!requireAuthenticatedForBackup()) return;
+            try {
+                const backup = {
+                    version: 1,
+                    exportedAt: new Date().toISOString(),
+                    userEmail: currentUserEmail || '',
+                    orders: Array.isArray(orders) ? orders : []
+                };
+                const blob = new Blob([JSON.stringify(backup, null, 2)],
+                    { type: 'application/json;charset=utf-8' });
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = `backup_OS_${new Date().toISOString().slice(0,10)}.json`;
+                document.body.appendChild(a);
+                a.click();
+                a.remove();
+                URL.revokeObjectURL(url);
+                showToast(`${orders.length} OS exportadas com sucesso.`, 'success');
+            } catch (error) {
+                console.error('Erro ao exportar OS:', error);
+                showToast('Não foi possível exportar os dados.', 'error');
+            }
+        }
+
+        function openImportData() {
+            if (!requireAuthenticatedForBackup()) return;
+            const input = document.getElementById('importDataInput');
+            if (input) {
+                input.value = '';
+                input.click();
+            }
+        }
+
+        async function importOrdersData(event) {
+            if (!requireAuthenticatedForBackup()) return;
+            const input = event?.target;
+            const file = input?.files?.[0];
+            if (!file) return;
+
+            try {
+                const parsed = JSON.parse(await file.text());
+                const importedOrders = Array.isArray(parsed) ? parsed : parsed?.orders;
+                if (!Array.isArray(importedOrders)) {
+                    throw new Error('O arquivo não contém uma lista válida de OS.');
+                }
+
+                const validOrders = importedOrders
+                    .filter(os => os && typeof os === 'object' && String(os.id || '').trim())
+                    .map(os => ({
+                        ...os,
+                        id: String(os.id).trim(),
+                        valor: os.valor === '' || os.valor === null || os.valor === undefined
+                            ? 0 : (Number(os.valor) || 0)
+                    }));
+
+                if (!validOrders.length && importedOrders.length) {
+                    throw new Error('Nenhuma OS válida foi encontrada no arquivo.');
+                }
+
+                if (!confirm(
+                    `Foram encontradas ${validOrders.length} OS no arquivo.\n\n` +
+                    `OS com o mesmo número substituirão as atuais.\n` +
+                    `As demais serão adicionadas.\n\nContinuar?`
+                )) return;
+
+                const byId = new Map((Array.isArray(orders) ? orders : [])
+                    .map(os => [String(os.id), os]));
+                validOrders.forEach(os => byId.set(String(os.id), os));
+                orders = Array.from(byId.values());
+
+                saveOrdersLocally();
+                renderOrders();
+
+                for (const os of validOrders) {
+                    await queueSyncOperation('upsert', os.id, os);
+                }
+
+                if (navigator.onLine && supabaseReady && isAuthenticated) {
+                    await flushSyncQueue(true);
+                    await loadOrdersFromSupabase(false);
+                } else {
+                    updateSyncStatus();
+                }
+
+                showToast(`${validOrders.length} OS importadas com sucesso.`, 'success');
+            } catch (error) {
+                console.error('Erro ao importar OS:', error);
+                showToast(`Falha ao importar: ${error.message || 'arquivo inválido'}`, 'error');
+            } finally {
+                if (input) input.value = '';
+            }
+        }
+
         async function salvarHTMLAtualizado() {
             if (!isAuthenticated) {
                 showToast("Acesso restrito. Faça login para continuar!", "error");
@@ -1792,15 +1913,18 @@ html, body { max-width: 100%; overflow-x: hidden; }
             const modal = document.getElementById('authModal');
 
             const content = document.getElementById('mainContent');
+            const backup = document.getElementById('backupActions');
 
             if (isAuthenticated) {
                 menu?.classList.remove('hidden');
                 content?.classList.remove('hidden');
                 modal?.classList.add('hidden');
+                backup?.classList.remove('hidden');
             } else {
                 menu?.classList.add('hidden');
                 content?.classList.add('hidden');
                 modal?.classList.remove('hidden');
+                backup?.classList.add('hidden');
             }
         }
 
@@ -1854,7 +1978,10 @@ html, body { max-width: 100%; overflow-x: hidden; }
 
                 isAuthenticated = true;
                 supabaseReady = true;
-                document.getElementById('userBadge').innerText = `${data.user.email} (Logado)`;
+                currentUserId = data.user.id || '';
+                currentUserEmail = data.user.email || '';
+                document.getElementById('userBadge').innerText = `${currentUserEmail} (Logado)`;
+                updateSyncStatus();
                 updateMenuVisibility();
                 showToast('Acesso concedido com sucesso!', 'success');
                 await loadOrdersFromSupabase(true);
