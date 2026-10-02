@@ -156,25 +156,9 @@ html, body { max-width: 100%; overflow-x: hidden; }
                 <!-- Save HTML Button -->
                 <button onclick="salvarHTMLAtualizado()" title="Salvar todas as OS no banco online" class="flex items-center gap-2 px-3 py-2 text-xs sm:text-sm font-medium rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white shadow-sm transition-all active:scale-95">
                     <i class="fa-solid fa-floppy-disk"></i>
-                    <span class="hidden md:inline">💾 Baixar HTML Atualizado</span>
+                    <span class="hidden md:inline">Sincronizar</span>
                     <span class="md:hidden">Salvar</span>
                 </button>
-
-                <!-- Backup: Exportar / Importar (somente após login) -->
-                <div id="backupActions" class="flex items-center gap-1.5">
-                    <button id="exportDataBtn" onclick="exportOrdersData()" title="Exportar OS para arquivo JSON"
-                        class="flex items-center gap-2 px-3 py-2 text-xs sm:text-sm font-medium rounded-lg bg-sky-600 hover:bg-sky-500 text-white shadow-sm transition-all active:scale-95">
-                        <i class="fa-solid fa-file-export"></i>
-                        <span class="hidden md:inline">Exportar</span>
-                    </button>
-                    <button id="importDataBtn" onclick="openImportData()" title="Importar OS de arquivo JSON"
-                        class="flex items-center gap-2 px-3 py-2 text-xs sm:text-sm font-medium rounded-lg bg-violet-600 hover:bg-violet-500 text-white shadow-sm transition-all active:scale-95">
-                        <i class="fa-solid fa-file-import"></i>
-                        <span class="hidden md:inline">Importar</span>
-                    </button>
-                    <input id="importDataInput" type="file" accept=".json,application/json" class="hidden"
-                           onchange="importOrdersData(event)">
-                </div>
 
                 <!-- Theme Toggle Button -->
                 <button id="themeToggleBtn" onclick="toggleTheme()" title="Alternar Tema Claro/Escuro" class="p-2.5 rounded-lg border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-800 hover:bg-slate-100 dark:hover:bg-slate-700 text-slate-600 dark:text-slate-300 transition-all">
@@ -464,7 +448,7 @@ html, body { max-width: 100%; overflow-x: hidden; }
                 <i class="fa-solid fa-user-lock"></i>
             </div>
             <h3 class="text-lg font-bold text-slate-800 dark:text-slate-100">Gerenciador de OS - Celulares</h3>
-            <p class="text-xs text-slate-500 dark:text-slate-400">Entre com o e-mail e a senha cadastrados no Supabase</p>
+            <p class="text-xs text-slate-500 dark:text-slate-400">Entre com o e-mail e a senha cadastrados</p>
             
             <form onsubmit="event.preventDefault(); loginUser();" class="space-y-3">
                 <input type="email" id="authUser" placeholder="E-mail" class="w-full px-3 py-2 text-center text-sm rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-slate-800 dark:text-slate-100 focus:ring-2 focus:ring-sky-500 focus:outline-none">
@@ -486,7 +470,7 @@ html, body { max-width: 100%; overflow-x: hidden; }
         // Mantém o aplicativo disponível mesmo quando a página for reaberta sem internet.
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', () => {
-                navigator.serviceWorker.register('./sw.js?v=6')
+                navigator.serviceWorker.register('./sw.js?v=4')
                     .then(() => console.log('Service Worker offline ativo.'))
                     .catch(err => console.warn('Service Worker não foi registrado:', err));
             });
@@ -561,7 +545,8 @@ html, body { max-width: 100%; overflow-x: hidden; }
 
         function readOrdersLocally() {
             try {
-                const saved = localStorage.getItem(getLocalOrdersKey());
+                const saved = localStorage.getItem(getLocalOrdersKey())
+                    || localStorage.getItem('cellfix_orders_data');
                 if (!saved) return null;
                 const parsed = JSON.parse(saved);
                 return Array.isArray(parsed) ? parsed : null;
@@ -643,8 +628,8 @@ html, body { max-width: 100%; overflow-x: hidden; }
         async function flushSyncQueue(showMessage = true) {
             if (!isAuthenticated || !navigator.onLine || syncInProgress) return false;
 
-            let queue = readSyncQueue();
-            if (!queue.length) {
+            const initialQueue = readSyncQueue();
+            if (!initialQueue.length) {
                 updateSyncStatus();
                 return true;
             }
@@ -652,18 +637,12 @@ html, body { max-width: 100%; overflow-x: hidden; }
             syncInProgress = true;
             lastSyncErrorShown = false;
             updateSyncStatus();
-            const total = queue.length;
+
+            let queue = [...initialQueue];
 
             try {
-                while (queue.length) {
-                    if (!navigator.onLine) throw new Error('Conexão perdida durante a sincronização.');
-
+                while (queue.length && navigator.onLine) {
                     const item = queue[0];
-                    if (!item || !item.id) {
-                        queue.shift();
-                        writeSyncQueue(queue);
-                        continue;
-                    }
 
                     if (item.action === 'upsert') {
                         const { error } = await supabaseClient
@@ -681,21 +660,24 @@ html, body { max-width: 100%; overflow-x: hidden; }
                         if (error) throw error;
                     }
 
-                    // Só remove da fila DEPOIS da confirmação do Supabase.
                     queue.shift();
                     writeSyncQueue(queue);
                     updateSyncStatus();
                 }
 
-                if (showMessage && total > 0) {
-                    showToast(`☁️ ${total} alteração(ões) sincronizada(s).`, 'success');
+                if (showMessage && initialQueue.length > 0 && queue.length === 0) {
+                    showToast(`☁️ ${initialQueue.length} alteração(ões) sincronizada(s).`, 'success');
                 }
-                return true;
+
+                return queue.length === 0;
             } catch (error) {
                 console.error('Erro na sincronização:', error);
+
+                // A alteração continua na fila e será tentada novamente.
                 writeSyncQueue(queue);
+
                 if (!lastSyncErrorShown) {
-                    showToast('📴 A sincronização falhou. As alterações continuam salvas no aparelho e serão tentadas novamente.', 'error');
+                    showToast('Não foi possível sincronizar agora. As alterações ficaram salvas neste dispositivo.', 'error');
                     lastSyncErrorShown = true;
                 }
                 return false;
@@ -827,16 +809,7 @@ html, body { max-width: 100%; overflow-x: hidden; }
                 }
 
                 // Antes de buscar a nuvem, envia tudo que ficou pendente offline.
-                // Se alguma alteração não for confirmada, NÃO substitui os dados locais
-                // pelos dados antigos da nuvem.
-                const synced = await flushSyncQueue(false);
-                if (!synced && readSyncQueue().length > 0) {
-                    await checkAndAutoUpdateOverdue();
-                    renderOrders();
-                    updateFinancialStats(false);
-                    updateSyncStatus();
-                    return;
-                }
+                await flushSyncQueue(false);
 
                 const { data, error } = await supabaseClient
                     .from('ordens_servico')
@@ -894,22 +867,28 @@ html, body { max-width: 100%; overflow-x: hidden; }
             // O dispositivo é sempre atualizado primeiro.
             saveOrdersLocally();
 
-            // Primeiro coloca a alteração na fila. Ela só será removida depois
-            // que o Supabase confirmar o recebimento.
-            queueSyncOperation('upsert', os.id, os);
-
             if (!navigator.onLine) {
+                queueSyncOperation('upsert', os.id, os);
                 return false;
             }
 
-            const synced = await flushSyncQueue(false);
-            if (synced) {
+            try {
+                const { error } = await supabaseClient
+                    .from('ordens_servico')
+                    .upsert({ id: String(os.id), dados: os }, { onConflict: 'id' });
+
+                if (error) throw error;
+
                 updateSyncStatus();
                 return true;
-            }
+            } catch (error) {
+                console.error('Erro ao salvar OS no Supabase:', error);
 
-            showToast(`OS ${os.id} salva no aparelho. Será sincronizada quando a conexão voltar.`, 'info');
-            return false;
+                // Não perde a alteração: coloca na fila para tentar novamente.
+                queueSyncOperation('upsert', os.id, os);
+                showToast(`OS ${os.id} salva no aparelho. Será sincronizada quando a conexão voltar.`, 'info');
+                return false;
+            }
         }
 
         async function persistAllOrdersToSupabase(showMessage = true) {
@@ -948,16 +927,19 @@ html, body { max-width: 100%; overflow-x: hidden; }
         async function deleteOrderFromSupabase(osId) {
             if (!isAuthenticated || !osId) return false;
 
-            // A exclusão também entra primeiro na fila para nunca ser perdida.
-            queueSyncOperation('delete', osId);
-
             if (!navigator.onLine) {
+                queueSyncOperation('delete', osId);
                 return false;
             }
 
             try {
-                const synced = await flushSyncQueue(false);
-                if (!synced) return false;
+                const { error } = await supabaseClient
+                    .from('ordens_servico')
+                    .delete()
+                    .eq('id', String(osId));
+
+                if (error) throw error;
+
                 updateSyncStatus();
                 return true;
             } catch (error) {
@@ -1795,111 +1777,6 @@ html, body { max-width: 100%; overflow-x: hidden; }
             closeWhatsAppModal();
         }
 
-        // ==================== EXPORTAR / IMPORTAR ====================
-        function requireAuthenticatedForBackup() {
-            if (!isAuthenticated || !currentUserId) {
-                showToast("Faça login para usar Exportar/Importar.", "error");
-                document.getElementById('authModal')?.classList.remove('hidden');
-                return false;
-            }
-            return true;
-        }
-
-        function exportOrdersData() {
-            if (!requireAuthenticatedForBackup()) return;
-            try {
-                const backup = {
-                    version: 1,
-                    exportedAt: new Date().toISOString(),
-                    userEmail: currentUserEmail || '',
-                    orders: Array.isArray(orders) ? orders : []
-                };
-                const blob = new Blob([JSON.stringify(backup, null, 2)],
-                    { type: 'application/json;charset=utf-8' });
-                const url = URL.createObjectURL(blob);
-                const a = document.createElement('a');
-                a.href = url;
-                a.download = `backup_OS_${new Date().toISOString().slice(0,10)}.json`;
-                document.body.appendChild(a);
-                a.click();
-                a.remove();
-                URL.revokeObjectURL(url);
-                showToast(`${orders.length} OS exportadas com sucesso.`, 'success');
-            } catch (error) {
-                console.error('Erro ao exportar OS:', error);
-                showToast('Não foi possível exportar os dados.', 'error');
-            }
-        }
-
-        function openImportData() {
-            if (!requireAuthenticatedForBackup()) return;
-            const input = document.getElementById('importDataInput');
-            if (input) {
-                input.value = '';
-                input.click();
-            }
-        }
-
-        async function importOrdersData(event) {
-            if (!requireAuthenticatedForBackup()) return;
-            const input = event?.target;
-            const file = input?.files?.[0];
-            if (!file) return;
-
-            try {
-                const parsed = JSON.parse(await file.text());
-                const importedOrders = Array.isArray(parsed) ? parsed : parsed?.orders;
-                if (!Array.isArray(importedOrders)) {
-                    throw new Error('O arquivo não contém uma lista válida de OS.');
-                }
-
-                const validOrders = importedOrders
-                    .filter(os => os && typeof os === 'object' && String(os.id || '').trim())
-                    .map(os => ({
-                        ...os,
-                        id: String(os.id).trim(),
-                        valor: os.valor === '' || os.valor === null || os.valor === undefined
-                            ? 0 : (Number(os.valor) || 0)
-                    }));
-
-                if (!validOrders.length && importedOrders.length) {
-                    throw new Error('Nenhuma OS válida foi encontrada no arquivo.');
-                }
-
-                if (!confirm(
-                    `Foram encontradas ${validOrders.length} OS no arquivo.\n\n` +
-                    `OS com o mesmo número substituirão as atuais.\n` +
-                    `As demais serão adicionadas.\n\nContinuar?`
-                )) return;
-
-                const byId = new Map((Array.isArray(orders) ? orders : [])
-                    .map(os => [String(os.id), os]));
-                validOrders.forEach(os => byId.set(String(os.id), os));
-                orders = Array.from(byId.values());
-
-                saveOrdersLocally();
-                renderOrders();
-
-                for (const os of validOrders) {
-                    await queueSyncOperation('upsert', os.id, os);
-                }
-
-                if (navigator.onLine && supabaseReady && isAuthenticated) {
-                    await flushSyncQueue(true);
-                    await loadOrdersFromSupabase(false);
-                } else {
-                    updateSyncStatus();
-                }
-
-                showToast(`${validOrders.length} OS importadas com sucesso.`, 'success');
-            } catch (error) {
-                console.error('Erro ao importar OS:', error);
-                showToast(`Falha ao importar: ${error.message || 'arquivo inválido'}`, 'error');
-            } finally {
-                if (input) input.value = '';
-            }
-        }
-
         async function salvarHTMLAtualizado() {
             if (!isAuthenticated) {
                 showToast("Acesso restrito. Faça login para continuar!", "error");
@@ -1915,18 +1792,15 @@ html, body { max-width: 100%; overflow-x: hidden; }
             const modal = document.getElementById('authModal');
 
             const content = document.getElementById('mainContent');
-            const backup = document.getElementById('backupActions');
 
             if (isAuthenticated) {
                 menu?.classList.remove('hidden');
                 content?.classList.remove('hidden');
                 modal?.classList.add('hidden');
-                backup?.classList.remove('hidden');
             } else {
                 menu?.classList.add('hidden');
                 content?.classList.add('hidden');
                 modal?.classList.remove('hidden');
-                backup?.classList.add('hidden');
             }
         }
 
@@ -1980,10 +1854,7 @@ html, body { max-width: 100%; overflow-x: hidden; }
 
                 isAuthenticated = true;
                 supabaseReady = true;
-                currentUserId = data.user.id || '';
-                currentUserEmail = data.user.email || '';
-                document.getElementById('userBadge').innerText = `${currentUserEmail} (Logado)`;
-                updateSyncStatus();
+                document.getElementById('userBadge').innerText = `${data.user.email} (Logado)`;
                 updateMenuVisibility();
                 showToast('Acesso concedido com sucesso!', 'success');
                 await loadOrdersFromSupabase(true);
