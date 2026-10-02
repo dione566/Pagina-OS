@@ -188,8 +188,8 @@ html, body { max-width: 100%; overflow-x: hidden; }
                     <i class="fa-solid fa-circle-check"></i>
                 </div>
                 <p class="text-xs font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400">Total Pagos / Concluídos</p>
-                <h3 id="statTotalPagos" class="text-2xl sm:text-3xl font-extrabold text-emerald-600 dark:text-emerald-400 mt-1">R$&nbsp;1.150,00</h3>
-                <p id="statCountPagos" class="text-xs text-slate-400 mt-1">4 serviços quitados</p>
+                <h3 id="statTotalPagos" class="text-2xl sm:text-3xl font-extrabold text-emerald-600 dark:text-emerald-400 mt-1">R$&nbsp;0,00</h3>
+                <p id="statCountPagos" class="text-xs text-slate-400 mt-1">0 serviços quitados</p>
             </div>
 
             <!-- Total A Receber Card -->
@@ -198,8 +198,8 @@ html, body { max-width: 100%; overflow-x: hidden; }
                     <i class="fa-solid fa-triangle-exclamation"></i>
                 </div>
                 <p class="text-xs font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400">Total A Receber (Devedores)</p>
-                <h3 id="statTotalDevedores" class="text-2xl sm:text-3xl font-extrabold text-rose-600 dark:text-rose-400 mt-1">R$&nbsp;500,00</h3>
-                <p id="statCountDevedores" class="text-xs text-slate-400 mt-1">3 pendências ativas</p>
+                <h3 id="statTotalDevedores" class="text-2xl sm:text-3xl font-extrabold text-rose-600 dark:text-rose-400 mt-1">R$&nbsp;0,00</h3>
+                <p id="statCountDevedores" class="text-xs text-slate-400 mt-1">0 pendências ativas</p>
             </div>
 
             <!-- Total Em Andamento Card -->
@@ -218,8 +218,8 @@ html, body { max-width: 100%; overflow-x: hidden; }
                     <i class="fa-solid fa-list-check"></i>
                 </div>
                 <p class="text-xs font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400">Total de Ordens</p>
-                <h3 id="statTotalOS" class="text-2xl sm:text-3xl font-extrabold text-slate-800 dark:text-slate-100 mt-1">8</h3>
-                <p id="statGeralValor" class="text-xs text-slate-400 mt-1">Volume total: R$&nbsp;1.650,00</p>
+                <h3 id="statTotalOS" class="text-2xl sm:text-3xl font-extrabold text-slate-800 dark:text-slate-100 mt-1">0</h3>
+                <p id="statGeralValor" class="text-xs text-slate-400 mt-1">Volume total: R$&nbsp;0,00</p>
             </div>
         </section>
 
@@ -249,272 +249,17 @@ html, body { max-width: 100%; overflow-x: hidden; }
 
             <select id="tabMenu" class="tab-menu-select" aria-label="Selecionar seção" onchange="switchTab(this.value)">
                 <option value="andamento">🔧 Em Andamento — 0</option>
-                <option value="sem_conserto">🚫 Celulares sem conserto — 1</option>
+                <option value="sem_conserto">🚫 Celulares sem conserto — 0</option>
                 <option value="celulares">📱 Celulares — 0</option>
                 <option value="aguardando_retirada">📦 Aguardando retirada — 0</option>
-                <option value="devedores">⚠️ Devedores / A Receber — 3</option>
-                <option value="pagos">✅ Serviços Pagos / Concluídos — 4</option>
-                <option value="todos">📋 Todos os Registros — 8</option>
+                <option value="devedores">⚠️ Devedores / A Receber — 0</option>
+                <option value="pagos">✅ Serviços Pagos / Concluídos — 0</option>
+                <option value="todos">📋 Todos os Registros — 0</option>
             </select>
         </div>
 
         <!-- OS List Grid Container -->
-        <section id="osListGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5"><div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl p-5 shadow-sm hover:shadow-md transition-all flex flex-col justify-between relative group border-l-4 border-l-rose-500">
-                <div>
-                    <!-- Top Card Info -->
-                    <div class="flex items-start justify-between gap-2 mb-2">
-                        <div>
-                            <span class="text-xs font-bold font-mono text-sky-600 dark:text-sky-400 bg-sky-50 dark:bg-sky-950/60 px-2 py-0.5 rounded-md border border-sky-200 dark:border-sky-800">OS-1918</span>
-                            <h3 class="text-base font-bold text-slate-800 dark:text-slate-100 mt-1">Filomeno</h3>
-                            
-                        </div>
-                        <div class="flex flex-col items-end gap-1">
-                            <span class="px-2.5 py-1 text-xs font-semibold rounded-full bg-rose-100 dark:bg-rose-950/80 text-rose-700 dark:text-rose-300 border border-rose-300/30 flex items-center gap-1.5"><i class="fa-solid fa-circle-exclamation text-[10px]"></i> Devedor / Pendente</span>
-                            <span class="px-2 py-0.5 text-[11px] font-medium rounded-md bg-sky-500/10 text-sky-600 dark:text-sky-400 border border-sky-500/20"><i class="fa-solid fa-clock mr-1"></i>Vence em 7 dias</span>
-                        </div>
-                    </div>
-
-                    <!-- Details Box -->
-                    <div class="space-y-1.5 my-3 text-xs text-slate-600 dark:text-slate-300 bg-slate-50 dark:bg-slate-800/40 p-3 rounded-xl border border-slate-100 dark:border-slate-800">
-                        <div class="flex items-center gap-2">
-                            <i class="fa-solid fa-mobile-screen text-slate-400 w-4"></i>
-                            <span class="font-medium text-slate-800 dark:text-slate-200">Samsung A55</span>
-                        </div>
-                        <div class="flex items-start gap-2">
-                            <i class="fa-solid fa-wrench text-slate-400 w-4 mt-0.5"></i>
-                            <span>Limpeza Placa de carga</span>
-                        </div>
-                        <div class="flex items-center gap-2">
-                            <i class="fa-solid fa-shield-halved text-slate-400 w-4"></i>
-                            <span>Garantia: <strong class="text-slate-700 dark:text-slate-200">Sem Garantia</strong></span>
-                        </div>
-                        <div class="flex items-center gap-2">
-                            <i class="fa-solid fa-calendar-day text-slate-400 w-4"></i>
-                            <span>Vencimento: 05/10/2026</span>
-                        </div>
-                        
-                        <div class="mt-2 pt-2 border-t border-slate-200/50 dark:border-slate-700/50 text-[11px] text-slate-500 italic">
-                            "Revisão agendada para 6 dias."
-                        </div>
-                        
-                    </div>
-
-                    <!-- Price Display -->
-                    <div class="flex items-center justify-between my-2">
-                        <span class="text-xs text-slate-400">Valor do Serviço:</span>
-                        <span class="text-lg font-black text-slate-900 dark:text-slate-100">R$&nbsp;50,00</span>
-                    </div>
-
-                    
-                </div>
-
-                <!-- Footer Action Buttons -->
-                <div class="mt-4 pt-3 border-t border-slate-100 dark:border-slate-800 flex flex-col gap-2">
-                    <!-- Quick Status Buttons Bar -->
-                    <div class="flex items-center gap-2">
-                        
-                    <button onclick="quickChangeStatus('OS-1918', 'pagos')" class="flex-1 py-1.5 px-3 bg-emerald-600 hover:bg-emerald-500 text-white font-semibold text-xs rounded-xl flex items-center justify-center gap-1.5 transition-all shadow-sm active:scale-95">
-                        <i class="fa-solid fa-check-double"></i> ✅ Pago
-                    </button>
-                
-                        
-                        <select onchange="quickChangeStatus('OS-1918', this.value)" title="Alterar Status Livremente" class="py-1.5 px-2 bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-200 font-semibold text-xs rounded-xl border border-slate-200 dark:border-slate-700 focus:outline-none">
-                            <option value="andamento">⚡ Andamento</option>
-                            <option value="sem_conserto">🚫 Sem conserto</option>
-                            <option value="celulares">📱 Celulares</option>
-                            <option value="aguardando_retirada">📦 Aguardando retirada</option>
-                            <option value="devedores" selected="">⚠️ Devedor</option>
-                            <option value="pagos">✅ Pago</option>
-                        </select>
-                    </div>
-
-                    <!-- Communication & Edit Actions -->
-                    <div class="flex items-center justify-between gap-2 pt-1">
-                        <button onclick="openWhatsAppModal('OS-1918')" class="flex-1 py-1.5 px-3 bg-emerald-50 dark:bg-emerald-950/40 hover:bg-emerald-100 dark:hover:bg-emerald-900/60 text-emerald-600 dark:text-emerald-400 font-semibold text-xs rounded-xl flex items-center justify-center gap-1.5 transition-all border border-emerald-200 dark:border-emerald-800">
-                            <i class="fa-brands fa-whatsapp text-sm"></i> WhatsApp
-                        </button>
-
-                        <div class="flex items-center gap-1">
-                            <button onclick="openOSModal('OS-1918')" title="Editar OS" class="p-2 text-slate-500 hover:text-sky-600 dark:hover:text-sky-400 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg transition-all">
-                                <i class="fa-solid fa-pen-to-square"></i>
-                            </button>
-                            <button onclick="deleteOS('OS-1918')" title="Excluir OS" class="p-2 text-slate-500 hover:text-rose-600 dark:hover:text-rose-400 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg transition-all">
-                                <i class="fa-solid fa-trash-can"></i>
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            </div><div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl p-5 shadow-sm hover:shadow-md transition-all flex flex-col justify-between relative group border-l-4 border-l-rose-500">
-                <div>
-                    <!-- Top Card Info -->
-                    <div class="flex items-start justify-between gap-2 mb-2">
-                        <div>
-                            <span class="text-xs font-bold font-mono text-sky-600 dark:text-sky-400 bg-sky-50 dark:bg-sky-950/60 px-2 py-0.5 rounded-md border border-sky-200 dark:border-sky-800">OS-3074</span>
-                            <h3 class="text-base font-bold text-slate-800 dark:text-slate-100 mt-1">David Oliveira</h3>
-                            
-                        </div>
-                        <div class="flex flex-col items-end gap-1">
-                            <span class="px-2.5 py-1 text-xs font-semibold rounded-full bg-rose-100 dark:bg-rose-950/80 text-rose-700 dark:text-rose-300 border border-rose-300/30 flex items-center gap-1.5"><i class="fa-solid fa-circle-exclamation text-[10px]"></i> Devedor / Pendente</span>
-                            <span class="px-2 py-0.5 text-[11px] font-medium rounded-md bg-sky-500/10 text-sky-600 dark:text-sky-400 border border-sky-500/20"><i class="fa-solid fa-clock mr-1"></i>Vence em 7 dias</span>
-                        </div>
-                    </div>
-
-                    <!-- Details Box -->
-                    <div class="space-y-1.5 my-3 text-xs text-slate-600 dark:text-slate-300 bg-slate-50 dark:bg-slate-800/40 p-3 rounded-xl border border-slate-100 dark:border-slate-800">
-                        <div class="flex items-center gap-2">
-                            <i class="fa-solid fa-mobile-screen text-slate-400 w-4"></i>
-                            <span class="font-medium text-slate-800 dark:text-slate-200">Redmi A3</span>
-                        </div>
-                        <div class="flex items-start gap-2">
-                            <i class="fa-solid fa-wrench text-slate-400 w-4 mt-0.5"></i>
-                            <span>Desbloqueio + BROM</span>
-                        </div>
-                        <div class="flex items-center gap-2">
-                            <i class="fa-solid fa-shield-halved text-slate-400 w-4"></i>
-                            <span>Garantia: <strong class="text-slate-700 dark:text-slate-200">Sem Garantia</strong></span>
-                        </div>
-                        <div class="flex items-center gap-2">
-                            <i class="fa-solid fa-calendar-day text-slate-400 w-4"></i>
-                            <span>Vencimento: 05/10/2026</span>
-                        </div>
-                        
-                        <div class="mt-2 pt-2 border-t border-slate-200/50 dark:border-slate-700/50 text-[11px] text-slate-500 italic">
-                            "Procedimento de remoção de conta e reparo de firmware."
-                        </div>
-                        
-                    </div>
-
-                    <!-- Price Display -->
-                    <div class="flex items-center justify-between my-2">
-                        <span class="text-xs text-slate-400">Valor do Serviço:</span>
-                        <span class="text-lg font-black text-slate-900 dark:text-slate-100">R$&nbsp;100,00</span>
-                    </div>
-
-                    
-                </div>
-
-                <!-- Footer Action Buttons -->
-                <div class="mt-4 pt-3 border-t border-slate-100 dark:border-slate-800 flex flex-col gap-2">
-                    <!-- Quick Status Buttons Bar -->
-                    <div class="flex items-center gap-2">
-                        
-                    <button onclick="quickChangeStatus('OS-3074', 'pagos')" class="flex-1 py-1.5 px-3 bg-emerald-600 hover:bg-emerald-500 text-white font-semibold text-xs rounded-xl flex items-center justify-center gap-1.5 transition-all shadow-sm active:scale-95">
-                        <i class="fa-solid fa-check-double"></i> ✅ Pago
-                    </button>
-                
-                        
-                        <select onchange="quickChangeStatus('OS-3074', this.value)" title="Alterar Status Livremente" class="py-1.5 px-2 bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-200 font-semibold text-xs rounded-xl border border-slate-200 dark:border-slate-700 focus:outline-none">
-                            <option value="andamento">⚡ Andamento</option>
-                            <option value="sem_conserto">🚫 Sem conserto</option>
-                            <option value="celulares">📱 Celulares</option>
-                            <option value="aguardando_retirada">📦 Aguardando retirada</option>
-                            <option value="devedores" selected="">⚠️ Devedor</option>
-                            <option value="pagos">✅ Pago</option>
-                        </select>
-                    </div>
-
-                    <!-- Communication & Edit Actions -->
-                    <div class="flex items-center justify-between gap-2 pt-1">
-                        <button onclick="openWhatsAppModal('OS-3074')" class="flex-1 py-1.5 px-3 bg-emerald-50 dark:bg-emerald-950/40 hover:bg-emerald-100 dark:hover:bg-emerald-900/60 text-emerald-600 dark:text-emerald-400 font-semibold text-xs rounded-xl flex items-center justify-center gap-1.5 transition-all border border-emerald-200 dark:border-emerald-800">
-                            <i class="fa-brands fa-whatsapp text-sm"></i> WhatsApp
-                        </button>
-
-                        <div class="flex items-center gap-1">
-                            <button onclick="openOSModal('OS-3074')" title="Editar OS" class="p-2 text-slate-500 hover:text-sky-600 dark:hover:text-sky-400 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg transition-all">
-                                <i class="fa-solid fa-pen-to-square"></i>
-                            </button>
-                            <button onclick="deleteOS('OS-3074')" title="Excluir OS" class="p-2 text-slate-500 hover:text-rose-600 dark:hover:text-rose-400 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg transition-all">
-                                <i class="fa-solid fa-trash-can"></i>
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            </div><div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl p-5 shadow-sm hover:shadow-md transition-all flex flex-col justify-between relative group border-l-4 border-l-rose-500">
-                <div>
-                    <!-- Top Card Info -->
-                    <div class="flex items-start justify-between gap-2 mb-2">
-                        <div>
-                            <span class="text-xs font-bold font-mono text-sky-600 dark:text-sky-400 bg-sky-50 dark:bg-sky-950/60 px-2 py-0.5 rounded-md border border-sky-200 dark:border-sky-800">OS-8172</span>
-                            <h3 class="text-base font-bold text-slate-800 dark:text-slate-100 mt-1">Alex</h3>
-                            
-                        </div>
-                        <div class="flex flex-col items-end gap-1">
-                            <span class="px-2.5 py-1 text-xs font-semibold rounded-full bg-rose-100 dark:bg-rose-950/80 text-rose-700 dark:text-rose-300 border border-rose-300/30 flex items-center gap-1.5"><i class="fa-solid fa-circle-exclamation text-[10px]"></i> Devedor / Pendente</span>
-                            <span class="px-2 py-0.5 text-[11px] font-bold rounded-md bg-rose-500/10 text-rose-600 dark:text-rose-400 border border-rose-500/20"><i class="fa-solid fa-clock mr-1"></i>Vencido há 9 dias</span>
-                        </div>
-                    </div>
-
-                    <!-- Details Box -->
-                    <div class="space-y-1.5 my-3 text-xs text-slate-600 dark:text-slate-300 bg-slate-50 dark:bg-slate-800/40 p-3 rounded-xl border border-slate-100 dark:border-slate-800">
-                        <div class="flex items-center gap-2">
-                            <i class="fa-solid fa-mobile-screen text-slate-400 w-4"></i>
-                            <span class="font-medium text-slate-800 dark:text-slate-200">Galaxy A12</span>
-                        </div>
-                        <div class="flex items-start gap-2">
-                            <i class="fa-solid fa-wrench text-slate-400 w-4 mt-0.5"></i>
-                            <span>Troca de Display + Desbloqueio</span>
-                        </div>
-                        <div class="flex items-center gap-2">
-                            <i class="fa-solid fa-shield-halved text-slate-400 w-4"></i>
-                            <span>Garantia: <strong class="text-slate-700 dark:text-slate-200">30 Dias</strong></span>
-                        </div>
-                        <div class="flex items-center gap-2">
-                            <i class="fa-solid fa-calendar-day text-slate-400 w-4"></i>
-                            <span>Vencimento: 19/09/2026</span>
-                        </div>
-                        
-                        <div class="mt-2 pt-2 border-t border-slate-200/50 dark:border-slate-700/50 text-[11px] text-slate-500 italic">
-                            "Prazo vencido há 5 dias. Redirecionado automaticamente para Devedores."
-                        </div>
-                        
-                    </div>
-
-                    <!-- Price Display -->
-                    <div class="flex items-center justify-between my-2">
-                        <span class="text-xs text-slate-400">Valor do Serviço:</span>
-                        <span class="text-lg font-black text-slate-900 dark:text-slate-100">R$&nbsp;350,00</span>
-                    </div>
-
-                    
-                </div>
-
-                <!-- Footer Action Buttons -->
-                <div class="mt-4 pt-3 border-t border-slate-100 dark:border-slate-800 flex flex-col gap-2">
-                    <!-- Quick Status Buttons Bar -->
-                    <div class="flex items-center gap-2">
-                        
-                    <button onclick="quickChangeStatus('OS-8172', 'pagos')" class="flex-1 py-1.5 px-3 bg-emerald-600 hover:bg-emerald-500 text-white font-semibold text-xs rounded-xl flex items-center justify-center gap-1.5 transition-all shadow-sm active:scale-95">
-                        <i class="fa-solid fa-check-double"></i> ✅ Pago
-                    </button>
-                
-                        
-                        <select onchange="quickChangeStatus('OS-8172', this.value)" title="Alterar Status Livremente" class="py-1.5 px-2 bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-200 font-semibold text-xs rounded-xl border border-slate-200 dark:border-slate-700 focus:outline-none">
-                            <option value="andamento">⚡ Andamento</option>
-                            <option value="sem_conserto">🚫 Sem conserto</option>
-                            <option value="celulares">📱 Celulares</option>
-                            <option value="aguardando_retirada">📦 Aguardando retirada</option>
-                            <option value="devedores" selected="">⚠️ Devedor</option>
-                            <option value="pagos">✅ Pago</option>
-                        </select>
-                    </div>
-
-                    <!-- Communication & Edit Actions -->
-                    <div class="flex items-center justify-between gap-2 pt-1">
-                        <button onclick="openWhatsAppModal('OS-8172')" class="flex-1 py-1.5 px-3 bg-emerald-50 dark:bg-emerald-950/40 hover:bg-emerald-100 dark:hover:bg-emerald-900/60 text-emerald-600 dark:text-emerald-400 font-semibold text-xs rounded-xl flex items-center justify-center gap-1.5 transition-all border border-emerald-200 dark:border-emerald-800">
-                            <i class="fa-brands fa-whatsapp text-sm"></i> WhatsApp
-                        </button>
-
-                        <div class="flex items-center gap-1">
-                            <button onclick="openOSModal('OS-8172')" title="Editar OS" class="p-2 text-slate-500 hover:text-sky-600 dark:hover:text-sky-400 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg transition-all">
-                                <i class="fa-solid fa-pen-to-square"></i>
-                            </button>
-                            <button onclick="deleteOS('OS-8172')" title="Excluir OS" class="p-2 text-slate-500 hover:text-rose-600 dark:hover:text-rose-400 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg transition-all">
-                                <i class="fa-solid fa-trash-can"></i>
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            </div></section>
+        <section id="osListGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5"></section>
 
         <!-- Empty State Message -->
         <div id="emptyState" class="flex-col items-center justify-center py-16 text-center bg-white dark:bg-slate-900 rounded-2xl border border-dashed border-slate-300 dark:border-slate-800 hidden">
@@ -533,7 +278,7 @@ html, body { max-width: 100%; overflow-x: hidden; }
             <div class="px-6 py-4 border-b border-slate-200 dark:border-slate-800 flex items-center justify-between bg-slate-50 dark:bg-slate-800/50">
                 <div class="flex items-center gap-2">
                     <i class="fa-solid fa-wrench text-sky-500"></i>
-                    <h2 id="modalTitle" class="text-base font-bold text-slate-800 dark:text-slate-100">Editar OS: OS-7605</h2>
+                    <h2 id="modalTitle" class="text-base font-bold text-slate-800 dark:text-slate-100">Editar OS: OS-0000</h2>
                 </div>
                 <button onclick="closeOSModal()" class="p-1 text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 transition-colors">
                     <i class="fa-solid fa-xmark text-lg"></i>
@@ -542,13 +287,13 @@ html, body { max-width: 100%; overflow-x: hidden; }
 
             <!-- Modal Form Body -->
             <form id="osForm" onsubmit="handleFormSubmit(event)" class="p-6 overflow-y-auto space-y-4">
-                <input type="hidden" id="osIdHidden" value="OS-7605">
+                <input type="hidden" id="osIdHidden" value="OS-0000">
 
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <!-- Número da OS -->
                     <div>
                         <label class="block text-xs font-semibold uppercase tracking-wider text-slate-600 dark:text-slate-400 mb-1">N° da OS *</label>
-                        <input type="text" id="inputOsId" required="" placeholder="ex: OS-1918" class="w-full px-3 py-2 text-sm rounded-lg border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 focus:ring-2 focus:ring-sky-500 focus:outline-none" disabled="">
+                        <input type="text" id="inputOsId" required="" placeholder="ex: OS-0001" class="w-full px-3 py-2 text-sm rounded-lg border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 focus:ring-2 focus:ring-sky-500 focus:outline-none" disabled="">
                     </div>
 
                     <!-- Status -->
@@ -725,7 +470,7 @@ html, body { max-width: 100%; overflow-x: hidden; }
         // Mantém o aplicativo disponível mesmo quando a página for reaberta sem internet.
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', () => {
-                navigator.serviceWorker.register('./sw.js')
+                navigator.serviceWorker.register('./sw.js?v=4')
                     .then(() => console.log('Service Worker offline ativo.'))
                     .catch(err => console.warn('Service Worker não foi registrado:', err));
             });
@@ -982,7 +727,7 @@ html, body { max-width: 100%; overflow-x: hidden; }
             if (isAuthenticated) {
                 await loadOrdersFromSupabase(true);
             } else {
-                orders = [];
+                orders = [...INITIAL_ORDERS];
                 renderOrders();
                 updateFinancialStats();
                 document.getElementById('authModal').classList.remove('hidden');
@@ -1048,7 +793,7 @@ html, body { max-width: 100%; overflow-x: hidden; }
                     renderOrders();
                     updateFinancialStats(false);
                 } else {
-                    orders = [];
+                    orders = [...INITIAL_ORDERS];
                     saveOrdersLocally();
                     renderOrders();
                     updateFinancialStats(false);
