@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculadora de Garantia</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 40px;
+            background-color: #f4f7f6;
+        }
+        .container {
+            max-width: 400px;
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            margin: auto;
+        }
+        h2 {
+            color: #333;
+            text-align: center;
+        }
+        label {
+            display: block;
+            margin-top: 15px;
+            font-weight: bold;
+            color: #555;
+        }
+        input, select {
+            width: 100%;
+            padding: 10px;
+            margin-top: 5px;
+            box-sizing: border-box;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        button {
+            margin-top: 20px;
+            background: #007BFF;
+            color: white;
+            border: none;
+            padding: 10px;
+            width: 100%;
+            border-radius: 4px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        button:hover {
+            background: #0056b3;
+        }
+        .result {
+            margin-top: 20px;
+            padding: 15px;
+            background: #e2f0d9;
+            border: 1px solid #c8e1b7;
+            border-radius: 4px;
+            color: #385723;
+            display: none; /* Oculto até ser calculado */
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>Calculadora de Garantia</h2>
+    
+    <form id="garantiaForm">
+        <!-- Campo para selecionar a data de início -->
+        <label for="data_inicio">Data de Início:</label>
+        <input type="date" id="data_inicio" name="data_inicio" required>
+
+        <!-- Menu para selecionar o prazo (30, 60 ou 90 dias) -->
+        <label for="periodo">Prazo de Garantia:</label>
+        <select id="periodo" name="periodo" required>
+            <option value="30">30 Dias</option>
+            <option value="60">60 Dias</option>
+            <option value="90">90 Dias</option>
+        </select>
+
+        <button type="button" onclick="calcularGarantia()">Calcular Fim</button>
+    </form>
+
+    <div id="resultado" class="result">
+        <strong>Início da Garantia:</strong> <span id="resInicio"></span><br>
+        <strong>Prazo Escolhido:</strong> <span id="resPeriodo"></span> dias<br>
+        <strong>Fim da Garantia:</strong> <strong id="resFim"></strong>
+    </div>
+</div>
+
+<script>
+    // Define a data atual como padrão no campo de data ao carregar a página
+    window.onload = function() {
+        const hoje = new Date().toISOString().split('T')[0];
+        document.getElementById('data_inicio').value = hoje;
+    };
+
+    function calcularGarantia() {
+        const dataInicioInput = document.getElementById('data_inicio').value;
+        const periodoSelect = parseInt(document.getElementById('periodo').value);
+
+        if (!dataInicioInput) {
+            alert('Por favor, selecione a data de início.');
+            return;
+        }
+
+        // Cria a data de início (adicionando o horário UTC para evitar problemas de fuso horário)
+        const partesData = dataInicioInput.split('-');
+        const dataInicio = new Date(partesData[0], partesData[1] - 1, partesData[2]);
+
+        // Clona e adiciona os dias da garantia
+        const dataFim = new Date(dataInicio);
+        dataFim.setDate(dataFim.getDate() + periodoSelect);
+
+        // Formata as datas para o padrão brasileiro (DD/MM/AAAA)
+        const options = { year: 'numeric', month: '2-digit', day: '2-digit' };
+        const inicioFormatado = dataInicio.toLocaleDateString('pt-BR', options);
+        const fimFormatado = dataFim.toLocaleDateString('pt-BR', options);
+
+        // Exibe os resultados na tela
+        document.getElementById('resInicio').innerText = inicioFormatado;
+        document.getElementById('resPeriodo').innerText = periodoSelect;
+        document.getElementById('resFim').innerText = fimFormatado;
+        
+        document.getElementById('resultado').style.display = 'block';
+    }
+</script>
+
+</body>
+</html>
