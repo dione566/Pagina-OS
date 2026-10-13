@@ -183,26 +183,40 @@ html, body { max-width: 100%; overflow-x: hidden; }
 .dark .print-check{color:#cbd5e1}
 .print-paper{background:#fff;color:#172033;width:min(100%,420px);min-height:594px;margin:0 auto;box-shadow:0 14px 45px rgba(15,23,42,.18);border-radius:4px;overflow:hidden;font-family:Arial,Helvetica,sans-serif}
 .print-paper.thermal{width:302px;min-height:700px}
-.print-paper-inner{padding:22px}
-.print-paper.thermal .print-paper-inner{padding:15px}
+        .print-paper.print-format-thermal58{width:219px}
+        .print-paper .print-brand-sub{font-size:11px}
+        .print-paper .print-os-number{font-size:18px}
+        .print-paper .print-block-title{font-size:10px}
+        .print-paper .print-kv{font-size:12px}
+        .print-paper .print-kv b{font-size:10px}
+        .print-paper .print-service{font-size:12px}
+        .print-paper .print-terms{font-size:10px}
+        .print-paper .print-sign{font-size:10px}
+        .print-paper.print-format-a5{width:420px;min-height:594px}
+        .print-paper.print-format-a4landscape{width:594px;min-height:420px}
+        .print-paper.print-format-thermal58 .print-paper-inner{padding:8px}
+        .print-paper.print-format-thermal58 .print-row,.print-paper.print-format-thermal58 .print-signatures{grid-template-columns:1fr}
+
+.print-paper-inner{padding:26px}
+.print-paper.thermal .print-paper-inner{padding:18px}
 .print-brand{text-align:center;border-bottom:2px solid #172033;padding-bottom:12px;margin-bottom:13px}
-.print-brand-name{font-size:21px;font-weight:900;letter-spacing:.02em}
-.print-brand-sub{font-size:9px;color:#64748b;margin-top:3px}
+.print-brand-name{font-size:25px;font-weight:900;letter-spacing:.02em}
+.print-brand-sub{font-size:11px;color:#64748b;margin-top:4px}
 .print-os-top{display:flex;justify-content:space-between;gap:10px;align-items:flex-start;margin-bottom:14px}
-.print-os-number{font-size:16px;font-weight:900}
-.print-status{font-size:8px;font-weight:800;text-transform:uppercase;padding:4px 7px;border:1px solid #cbd5e1;border-radius:999px;white-space:nowrap}
-.print-block{border:1px solid #dbe2ea;border-radius:8px;padding:10px;margin-bottom:9px}
-.print-block-title{font-size:8px;font-weight:900;text-transform:uppercase;letter-spacing:.09em;color:#64748b;margin-bottom:7px}
+.print-os-number{font-size:20px;font-weight:900}
+.print-status{font-size:10px;font-weight:800;text-transform:uppercase;padding:5px 8px;border:1px solid #cbd5e1;border-radius:999px;white-space:nowrap}
+.print-block{border:1px solid #dbe2ea;border-radius:9px;padding:13px;margin-bottom:11px}
+.print-block-title{font-size:10px;font-weight:900;text-transform:uppercase;letter-spacing:.09em;color:#475569;margin-bottom:8px}
 .print-row{display:grid;grid-template-columns:1fr 1fr;gap:9px}
-.print-kv{font-size:9px;line-height:1.45}
-.print-kv b{display:block;font-size:8px;text-transform:uppercase;color:#64748b;margin-bottom:2px}
-.print-service{font-size:10px;line-height:1.5;white-space:pre-wrap}
+.print-kv{font-size:12px;line-height:1.55}
+.print-kv b{display:block;font-size:10px;text-transform:uppercase;color:#64748b;margin-bottom:3px}
+.print-service{font-size:12px;line-height:1.6;white-space:pre-wrap}
 .print-guarantee{background:#f8fafc;border:1px solid #dbe2ea}
-.print-terms-title{font-size:11px;font-weight:900;text-align:center;margin:15px 0 8px}
-.print-terms{font-size:8.5px;line-height:1.55}
+.print-terms-title{font-size:13px;font-weight:900;text-align:center;margin:16px 0 9px}
+.print-terms{font-size:10px;line-height:1.65}
 .print-signatures{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:25px}
-.print-sign{border-top:1px solid #334155;padding-top:5px;text-align:center;font-size:8px;color:#475569;min-height:30px}
-.print-footer{text-align:center;font-size:7.5px;color:#94a3b8;border-top:1px solid #e2e8f0;margin-top:16px;padding-top:8px}
+.print-sign{border-top:1px solid #334155;padding-top:7px;text-align:center;font-size:10px;color:#475569;min-height:36px}
+.print-footer{text-align:center;font-size:9px;color:#64748b;border-top:1px solid #e2e8f0;margin-top:18px;padding-top:9px}
 @media(max-width:900px){.print-workspace{grid-template-columns:1fr}.print-preview-wrap{min-height:540px}.print-editor{max-height:48vh}}
 @media(max-width:600px){.print-grid2,.print-row,.print-signatures{grid-template-columns:1fr}.print-paper{width:100%;min-height:0}.print-paper.thermal{width:302px}}
 @media print{body>*:not(#printStandalone){display:none!important}}
@@ -565,7 +579,7 @@ html, body { max-width: 100%; overflow-x: hidden; }
                         <div class="print-section-title"><i class="fa-solid fa-store text-sky-500"></i> Cabeçalho da assistência</div>
                         <div class="space-y-2">
                             <div><label class="print-label">Nome da assistência</label><input id="printEmpresa" class="print-field" value="NOMA DA EMPRESA" oninput="updatePrintPreview()"></div>
-                            <div><label class="print-label">Endereço / complemento</label><input id="printEndereco" class="print-field" value="Projetada 25, Q50 L29, S/N — Sinop - MT" oninput="updatePrintPreview()"></div>
+                            <div><label class="print-label">Endereço / complemento</label><input id="printEndereco" class="print-field" value="José Gonçalves, S/N — Sinop - MT" oninput="updatePrintPreview()"></div>
                             <div class="print-grid2">
                                 <div><label class="print-label">Telefone</label><input id="printTelefoneLoja" class="print-field" value="" oninput="updatePrintPreview()"></div>
                                 <div><label class="print-label">Subtítulo</label><input id="printSubtitulo" class="print-field" value="ASSISTÊNCIA TÉCNICA ESPECIALIZADA" oninput="updatePrintPreview()"></div>
@@ -621,6 +635,33 @@ html, body { max-width: 100%; overflow-x: hidden; }
                     </div>
 
                     <div class="print-section">
+                        <div class="print-section-title"><i class="fa-solid fa-calculator text-emerald-500"></i> Calculadora de garantia</div>
+                        <p class="text-xs text-slate-500 dark:text-slate-400 mb-3">Calcule o vencimento e aplique as datas diretamente nesta impressão.</p>
+                        <div class="print-grid2">
+                            <div>
+                                <label class="print-label" for="printCalcInicio">Data de início</label>
+                                <input id="printCalcInicio" type="date" class="print-field">
+                            </div>
+                            <div>
+                                <label class="print-label" for="printCalcPrazo">Prazo de garantia</label>
+                                <select id="printCalcPrazo" class="print-field">
+                                    <option value="30">30 dias</option>
+                                    <option value="60">60 dias</option>
+                                    <option value="90">90 dias</option>
+                                </select>
+                            </div>
+                        </div>
+                        <button type="button" onclick="calcularGarantiaNaImpressao()" class="mt-3 w-full px-4 py-3 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-sm transition-colors">
+                            <i class="fa-solid fa-calculator mr-2"></i>Calcular e aplicar à impressão
+                        </button>
+                        <div id="printCalcResultado" class="hidden mt-3 rounded-xl border border-emerald-200 dark:border-emerald-800 bg-emerald-50 dark:bg-emerald-950/30 p-3 text-sm text-emerald-900 dark:text-emerald-200">
+                            <div><strong>Início:</strong> <span id="printCalcResInicio"></span></div>
+                            <div class="mt-1"><strong>Prazo:</strong> <span id="printCalcResPrazo"></span> dias</div>
+                            <div class="mt-1 text-base"><strong>Fim da garantia:</strong> <span id="printCalcResFim" class="font-extrabold"></span></div>
+                        </div>
+                    </div>
+
+                    <div class="print-section">
                         <div class="print-section-title"><i class="fa-solid fa-file-signature text-indigo-500"></i> Termo e assinaturas</div>
                         <div class="space-y-2">
                             <div><label class="print-label">Perda da garantia</label><textarea id="printPerdaGarantia" rows="3" class="print-field" oninput="updatePrintPreview()">Se houver queda
@@ -644,9 +685,10 @@ Retirada de película (fora da loja)</textarea></div>
                             <label class="print-check"><input id="printShowTermos" type="checkbox" checked onchange="updatePrintPreview()"> Mostrar termo de garantia</label>
                             <label class="print-check"><input id="printShowSignatures" type="checkbox" checked onchange="updatePrintPreview()"> Mostrar assinaturas</label>
                             <div class="print-grid2">
-                                <div><label class="print-label">Formato</label><select id="printFormato" class="print-field" onchange="updatePrintPreview()"><option value="thermal">80 mm / térmica</option><option value="a4">A4</option></select></div>
+                                <div><label class="print-label">Formato</label><select id="printFormato" class="print-field" onchange="updatePrintPreview()"><option value="thermal">80 mm / térmica</option><option value="thermal58">58 mm / recibo compacto</option><option value="a4">A4 — padrão</option><option value="a4landscape">A4 — paisagem</option><option value="a5">A5 — meia folha</option></select></div>
                                 <div><label class="print-label">Título do termo</label><input id="printTituloTermo" class="print-field" value="Termo de Garantia" oninput="updatePrintPreview()"></div>
                             </div>
+                            <div class="mt-2"><label class="print-label">Vias para impressão em A4</label><select id="printVias" class="print-field" onchange="updatePrintPreview()"><option value="uma">Uma via</option><option value="duas">Duas vias lado a lado — mesma folha A4 paisagem</option></select><p class="text-[11px] text-slate-500 mt-1">Imprime a via do técnico e a via do cliente lado a lado na mesma folha A4 em paisagem.</p></div>
                         </div>
                     </div>
                 </div>
@@ -964,7 +1006,19 @@ Retirada de película (fora da loja)</textarea></div>
                             const { error: insertError } = await supabaseClient
                                 .from('ordens_servico')
                                 .insert(payload);
-                            if (insertError) throw insertError;
+                            if (insertError) {
+                                const duplicate = insertError.code === '23505' ||
+                                    /duplicate key|já existe|already exists/i.test(insertError.message || '');
+                                if (!duplicate) throw insertError;
+                                const retry = await supabaseClient
+                                    .from('ordens_servico')
+                                    .update({ dados: os })
+                                    .eq('id', String(item.id))
+                                    .eq('user_id', currentUserId)
+                                    .select('id');
+                                if (retry.error) throw retry.error;
+                                if (!retry.data || retry.data.length === 0) throw insertError;
+                            }
                         }
                     } else if (item.action === 'delete') {
                         const { error } = await supabaseClient
@@ -1380,30 +1434,27 @@ Retirada de película (fora da loja)</textarea></div>
         }
 
         async function saveOrderToSupabase(os, showError = true) {
-            if (!isAuthenticated || subscriptionBlocked || !os?.id || !currentUserId) return false;
+            if (!isAuthenticated || subscriptionBlocked || !os?.id || !currentUserId || !supabaseClient) return false;
 
-            // Sempre salva primeiro no aparelho.
-            saveOrdersLocally();
+            // Grava localmente e registra a pendência antes de chamar a rede:
+            // se a aba fechar ou a conexão cair, a alteração não é perdida.
+            if (!saveOrdersLocally()) return false;
+            queueSyncOperation('upsert', os.id, os);
 
             if (!navigator.onLine) {
-                queueSyncOperation('upsert', os.id, os);
+                updateSyncStatus();
                 return false;
             }
 
             try {
-                const payload = {
-                    id: String(os.id),
-                    user_id: currentUserId,
-                    dados: os
-                };
+                const id = String(os.id);
+                const payload = { id, user_id: currentUserId, dados: os };
 
-                // Não usamos upsert por "id". Como "id" é a chave primária da tabela,
-                // primeiro tentamos atualizar somente a OS pertencente ao usuário.
-                // Se ela ainda não existir para este usuário, fazemos INSERT.
+                // Atualiza apenas registros da conta autenticada.
                 const { data: updatedRows, error: updateError } = await supabaseClient
                     .from('ordens_servico')
                     .update({ dados: os })
-                    .eq('id', String(os.id))
+                    .eq('id', id)
                     .eq('user_id', currentUserId)
                     .select('id');
 
@@ -1414,24 +1465,39 @@ Retirada de película (fora da loja)</textarea></div>
                         .from('ordens_servico')
                         .insert(payload);
 
-                    if (insertError) throw insertError;
+                    // Se outra chamada concorrente criou a mesma OS, tenta atualizar
+                    // novamente; erros de permissão continuam sendo informados.
+                    if (insertError) {
+                        const duplicate = insertError.code === '23505' ||
+                            /duplicate key|já existe|already exists/i.test(insertError.message || '');
+                        if (!duplicate) throw insertError;
+
+                        const retry = await supabaseClient
+                            .from('ordens_servico')
+                            .update({ dados: os })
+                            .eq('id', id)
+                            .eq('user_id', currentUserId)
+                            .select('id');
+                        if (retry.error) throw retry.error;
+                        if (!retry.data || retry.data.length === 0) throw insertError;
+                    }
                 }
 
-                // Remove somente a pendência desta OS depois da confirmação do banco.
+                // Só remove a pendência depois da confirmação explícita do Supabase.
                 const queue = readSyncQueue().filter(item =>
-                    !(item.action === 'upsert' && String(item.id) === String(os.id))
+                    !(item.action === 'upsert' && String(item.id) === id)
                 );
                 writeSyncQueue(queue);
                 updateSyncStatus('Sincronizado');
                 return true;
             } catch (error) {
                 console.error('Erro ao salvar OS no Supabase:', error);
-                queueSyncOperation('upsert', os.id, os);
-
+                // A fila já foi gravada antes da chamada online.
                 if (showError) {
                     const msg = error?.message || error?.details || 'erro desconhecido';
-                    showToast(`OS ${os.id} ficou salva no aparelho. Sincronização pendente: ${msg}`, 'error');
+                    showToast(`OS ${os.id} salva neste aparelho, mas ainda não foi confirmada no banco: ${msg}`, 'error');
                 }
+                updateSyncStatus();
                 return false;
             }
         }
@@ -1501,7 +1567,13 @@ Retirada de película (fora da loja)</textarea></div>
 
             let hasChanges = false;
             orders.forEach(os => {
+                // Se o usuário moveu manualmente uma OS para Andamento, não a
+                // devolvemos automaticamente para Devedores ao recarregar a página.
+                // Essa marca fica salva junto com os dados da própria OS.
+                if (os.ignorarDevedorAutomatico === true) return;
+
                 if (!['pagos', 'sem_conserto', 'celulares', 'aguardando_retirada'].includes(os.status)) {
+                    if (!os.data || !/^\d{4}-\d{2}-\d{2}$/.test(String(os.data))) return;
                     const [year, month, day] = os.data.split('-').map(Number);
                     const targetDate = new Date(year, month - 1, day);
                     targetDate.setHours(0, 0, 0, 0);
@@ -1917,8 +1989,11 @@ Retirada de película (fora da loja)</textarea></div>
 
                     <!-- Communication & Edit Actions -->
                     <div class="flex items-center justify-between gap-2 pt-1">
-                        <button onclick="openWhatsAppModal('${os.id}')" class="flex-1 py-1.5 px-3 bg-emerald-50 dark:bg-emerald-950/40 hover:bg-emerald-100 dark:hover:bg-emerald-900/60 text-emerald-600 dark:text-emerald-400 font-semibold text-xs rounded-xl flex items-center justify-center gap-1.5 transition-all border border-emerald-200 dark:border-emerald-800">
-                            <i class="fa-brands fa-whatsapp text-sm"></i> WhatsApp
+                        <button onclick="openWhatsAppModal('${os.id}')" class="flex-1 py-2 px-3 bg-emerald-50 dark:bg-emerald-950/40 hover:bg-emerald-100 dark:hover:bg-emerald-900/60 text-emerald-600 dark:text-emerald-400 font-bold text-sm rounded-xl flex items-center justify-center gap-1.5 transition-all border border-emerald-200 dark:border-emerald-800">
+                            <i class="fa-brands fa-whatsapp text-base"></i> WhatsApp
+                        </button>
+                        <button onclick="openPrintOSModal('${os.id}')" title="Imprimir esta Ordem de Serviço" class="flex-1 py-2 px-3 bg-violet-50 dark:bg-violet-950/40 hover:bg-violet-100 dark:hover:bg-violet-900/60 text-violet-700 dark:text-violet-300 font-bold text-sm rounded-xl flex items-center justify-center gap-1.5 transition-all border border-violet-200 dark:border-violet-800">
+                            <i class="fa-solid fa-print text-base"></i> Imprimir OS
                         </button>
 
                         <div class="flex items-center gap-1">
@@ -1987,15 +2062,23 @@ Retirada de película (fora da loja)</textarea></div>
                 return;
             }
 
-            const index = orders.findIndex(o => o.id === osId);
+            const index = orders.findIndex(o => String(o.id) === String(osId));
             if (index !== -1) {
                 orders[index].status = newStatus;
+
+                // Uma mudança manual para Andamento tem prioridade sobre a regra
+                // automática de vencimento. A marca é salva localmente e na nuvem.
+                if (newStatus === 'andamento') {
+                    orders[index].ignorarDevedorAutomatico = true;
+                } else {
+                    delete orders[index].ignorarDevedorAutomatico;
+                }
 
                 // Atualiza a tela e o armazenamento local imediatamente.
                 saveOrdersLocally();
                 renderOrders();
 
-                // Online: salva no Supabase. Offline: entra na fila.
+                // Online: salva no Supabase. Offline: entra na fila para sincronizar depois.
                 await saveOrderToSupabase(orders[index]);
 
                 const statusNames = {
@@ -2557,9 +2640,9 @@ Retirada de película (fora da loja)</textarea></div>
         let printOSFiltered = [];
 
         const PRINT_DEFAULTS = {
-            empresa: 'GOMESCELL',
-            endereco: 'Cidade alta, Projetada 25 Q50 L29, S/N — Sinop - MT',
-            telefoneLoja: '66992527471',
+            empresa: 'NOME DA EMPRESA',
+            endereco: 'José Gonçalves, S/N — Sinop - MT',
+            telefoneLoja: '',
             subtitulo: 'ASSISTÊNCIA TÉCNICA ESPECIALIZADA',
             perdaGarantia: 'Se houver queda\nAparelho for molhado\nRetirada de película (fora da loja)',
             cobrimosGarantia: 'Defeito de fábrica (da peça)',
@@ -2695,6 +2778,10 @@ Retirada de película (fora da loja)</textarea></div>
             setPrintField('printObservacoes', saved.observacoes ?? (os.observacoes || ''));
             setPrintField('printGarantiaInicio', guaranteeStart);
             setPrintField('printGarantiaFim', guaranteeEnd);
+            setPrintField('printCalcInicio', guaranteeStart || new Date().toISOString().slice(0,10));
+            const calcDays = printGuaranteeDays(saved.garantia ?? os.garantia);
+            setPrintField('printCalcPrazo', [30,60,90].includes(calcDays) ? String(calcDays) : '30');
+            document.getElementById('printCalcResultado')?.classList.add('hidden');
             setPrintField('printRetirada', saved.retirada ?? '');
             setPrintField('printAssCliente', saved.assCliente ?? '');
             setPrintField('printAssTecnico', saved.assTecnico ?? '');
@@ -2708,6 +2795,43 @@ Retirada de película (fora da loja)</textarea></div>
             document.getElementById('printFormato').value = saved.formato || 'thermal';
 
             updatePrintPreview();
+        }
+
+        function calcularGarantiaNaImpressao() {
+            const inicio = document.getElementById('printCalcInicio')?.value;
+            const prazo = Number(document.getElementById('printCalcPrazo')?.value);
+            if (!inicio) {
+                showToast('Selecione a data de início da garantia.', 'error');
+                return;
+            }
+            if (![30, 60, 90].includes(prazo)) {
+                showToast('Selecione um prazo válido de 30, 60 ou 90 dias.', 'error');
+                return;
+            }
+
+            const fim = printAddDays(inicio, prazo);
+            if (!fim) {
+                showToast('Não foi possível calcular a data final.', 'error');
+                return;
+            }
+
+            // Aplica o resultado aos campos que aparecem no documento impresso.
+            setPrintField('printGarantiaInicio', inicio);
+            setPrintField('printGarantiaFim', fim);
+            setPrintField('printGarantia', `${prazo} dias`);
+
+            const result = document.getElementById('printCalcResultado');
+            if (result) result.classList.remove('hidden');
+            const inicioLabel = document.getElementById('printCalcResInicio');
+            const prazoLabel = document.getElementById('printCalcResPrazo');
+            const fimLabel = document.getElementById('printCalcResFim');
+            if (inicioLabel) inicioLabel.textContent = printFormatDate(inicio);
+            if (prazoLabel) prazoLabel.textContent = String(prazo);
+            if (fimLabel) fimLabel.textContent = printFormatDate(fim);
+
+            updatePrintPreview();
+            savePrintChanges(false);
+            showToast('Garantia calculada e aplicada à impressão.', 'success');
         }
 
         function collectPrintData() {
@@ -2766,7 +2890,7 @@ Retirada de película (fora da loja)</textarea></div>
             const telefoneLoja = getPrintField('printTelefoneLoja');
             const subtitulo = getPrintField('printSubtitulo');
             const formato = d.formato || 'thermal';
-            paper.className = `print-paper ${formato === 'thermal' ? 'thermal' : ''}`;
+            paper.className = `print-paper ${['thermal','thermal58'].includes(formato) ? 'thermal' : ''} print-format-${formato}`;
 
             const value = d.showValor && d.valor !== '' ? `R$ ${Number(String(d.valor).replace(',','.')).toLocaleString('pt-BR',{minimumFractionDigits:2,maximumFractionDigits:2})}` : '';
             const terms = getPrintField('printPerdaGarantia').split(/\n+/).filter(Boolean)
@@ -2833,7 +2957,10 @@ Retirada de película (fora da loja)</textarea></div>
                 </div>
             `;
             const badge = document.getElementById('printPreviewBadge');
-            if (badge) badge.textContent = formato === 'thermal' ? '80 mm' : 'A4';
+            if (badge) {
+                const vias = document.getElementById('printVias')?.value || 'uma';
+                badge.textContent = ({thermal:'80 mm',thermal58:'58 mm',a4:'A4 retrato',a4landscape:'A4 paisagem',a5:'A5'}[formato] || 'A4') + (vias === 'duas' && ['a4','a4landscape'].includes(formato) ? ' • 2 vias' : '');
+            }
         }
 
         function printCurrentOS() {
@@ -2846,6 +2973,13 @@ Retirada de película (fora da loja)</textarea></div>
             if (!paper) return;
 
             const format = getPrintField('printFormato');
+            const requestedVias = document.getElementById('printVias')?.value || 'uma';
+            // Duas vias são sempre montadas lado a lado na mesma folha A4 em paisagem.
+            const duasVias = requestedVias === 'duas';
+            const printFormat = duasVias ? 'a4landscape' : format;
+            const paperSize = ({thermal:'80mm auto',thermal58:'58mm auto',a4:'A4 portrait',a4landscape:'A4 landscape',a5:'A5 portrait'}[printFormat] || 'A4 portrait');
+            const pageMargin = duasVias ? '12mm' : ((printFormat === 'thermal' || printFormat === 'thermal58') ? '2mm' : '10mm');
+            const paperWidth = duasVias ? '100%' : ({thermal:'302px',thermal58:'210px',a4:'100%',a4landscape:'100%',a5:'100%'}[printFormat] || '100%');
             const win = window.open('', '_blank', 'width=900,height=900');
             if (!win) {
                 showToast('O navegador bloqueou a janela de impressão. Permita pop-ups para continuar.', 'error');
@@ -2853,18 +2987,46 @@ Retirada de película (fora da loja)</textarea></div>
             }
 
             const company = getPrintField('printEmpresa') || 'Assistência Técnica';
+            const basePaperHtml = paper.outerHTML;
+            const makeCopy = label => `<section class="print-copy"><div class="print-copy-content">${basePaperHtml.replace('<div class="print-paper-inner">', `<div class="print-paper-inner"><div class="print-copy-label">${label}</div>`)}</div></section>`;
+            const printHtml = duasVias
+                ? `<div class="print-two-copies">${makeCopy('VIA DO TÉCNICO')}${makeCopy('VIA DO CLIENTE')}</div>`
+                : basePaperHtml;
             win.document.open();
             win.document.write(`<!DOCTYPE html><html lang="pt-BR"><head><meta charset="UTF-8"><title>${escapePrintHtml(company)} — ${escapePrintHtml(getPrintField('printId'))}</title>
                 <style>
                     *{box-sizing:border-box}html,body{margin:0;padding:0;background:#fff;color:#172033;font-family:Arial,Helvetica,sans-serif}
                     .print-paper{background:#fff;color:#172033;margin:0 auto;box-shadow:none;border-radius:0;font-family:Arial,Helvetica,sans-serif}
-                    .print-paper.thermal{width:302px}.print-paper-inner{padding:15px}
-                    .print-brand{text-align:center;border-bottom:2px solid #172033;padding-bottom:12px;margin-bottom:13px}.print-brand-name{font-size:21px;font-weight:900;letter-spacing:.02em}.print-brand-sub{font-size:9px;color:#64748b;margin-top:3px}
-                    .print-os-top{display:flex;justify-content:space-between;gap:10px;align-items:flex-start;margin-bottom:14px}.print-os-number{font-size:16px;font-weight:900}.print-status{font-size:8px;font-weight:800;text-transform:uppercase;padding:4px 7px;border:1px solid #cbd5e1;border-radius:999px;white-space:nowrap}
-                    .print-block{border:1px solid #dbe2ea;border-radius:8px;padding:10px;margin-bottom:9px}.print-block-title{font-size:8px;font-weight:900;text-transform:uppercase;letter-spacing:.09em;color:#64748b;margin-bottom:7px}
-                    .print-row{display:grid;grid-template-columns:1fr 1fr;gap:9px}.print-kv{font-size:9px;line-height:1.45}.print-kv b{display:block;font-size:8px;text-transform:uppercase;color:#64748b;margin-bottom:2px}.print-service{font-size:10px;line-height:1.5;white-space:pre-wrap}.print-guarantee{background:#f8fafc;border:1px solid #dbe2ea}.print-terms-title{font-size:11px;font-weight:900;text-align:center;margin:15px 0 8px}.print-terms{font-size:8.5px;line-height:1.55}.print-signatures{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:25px}.print-sign{border-top:1px solid #334155;padding-top:5px;text-align:center;font-size:8px;color:#475569;min-height:30px}.print-footer{text-align:center;font-size:7.5px;color:#94a3b8;border-top:1px solid #e2e8f0;margin-top:16px;padding-top:8px}
-                    @page{margin:${format === 'thermal' ? '3mm' : '10mm'};size:${format === 'thermal' ? '80mm auto' : 'A4 portrait'}}@media print{body{width:100%}.print-paper{width:${format === 'thermal' ? '302px' : '100%'}}.print-paper.thermal{width:302px}}
-                </style></head><body>${paper.outerHTML}<script>window.onload=function(){setTimeout(function(){window.print()},250)}<\/script></body></html>`);
+                    .print-paper.thermal{width:${paperWidth}}.print-paper-inner{padding:18px}
+                    .print-brand{text-align:center;border-bottom:2px solid #172033;padding-bottom:12px;margin-bottom:13px}.print-brand-name{font-size:25px;font-weight:900;letter-spacing:.02em}.print-brand-sub{font-size:12px;color:#475569;margin-top:4px}
+                    .print-os-top{display:flex;justify-content:space-between;gap:10px;align-items:flex-start;margin-bottom:14px}.print-os-number{font-size:19px;font-weight:900}.print-status{font-size:11px;font-weight:800;text-transform:uppercase;padding:5px 8px;border:1px solid #cbd5e1;border-radius:999px;white-space:nowrap}
+                    .print-block{border:1px solid #cbd5e1;border-radius:8px;padding:12px;margin-bottom:10px;break-inside:avoid}.print-block-title{font-size:12px;font-weight:900;text-transform:uppercase;letter-spacing:.06em;color:#334155;margin-bottom:8px}
+                    .print-row{display:grid;grid-template-columns:1fr 1fr;gap:10px}.print-kv{font-size:13px;line-height:1.5;overflow-wrap:anywhere}.print-kv b{display:block;font-size:11px;text-transform:uppercase;color:#475569;margin-bottom:3px}.print-service{font-size:13px;line-height:1.55;white-space:pre-wrap;overflow-wrap:anywhere}.print-guarantee{background:#f8fafc;border:1px solid #cbd5e1}.print-terms-title{font-size:14px;font-weight:900;text-align:center;margin:15px 0 8px}.print-terms{font-size:11px;line-height:1.6}.print-signatures{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:30px}.print-sign{border-top:1px solid #334155;padding-top:7px;text-align:center;font-size:11px;color:#334155;min-height:38px}.print-footer{text-align:center;font-size:10px;color:#64748b;border-top:1px solid #cbd5e1;margin-top:16px;padding-top:8px}
+                    .print-copy-label{font-size:${duasVias ? '10px' : '15px'};font-weight:900;letter-spacing:.05em;text-align:center;border:1.5px solid #172033;padding:${duasVias ? '4px' : '7px'};margin-bottom:${duasVias ? '5px' : '12px'};color:#172033}
+                    .print-two-copies{display:flex;flex-direction:row;gap:18mm;width:100%;margin:0 auto;align-items:flex-start;min-width:0;position:relative}.print-two-copies:after{content:"";position:absolute;top:7mm;bottom:0;left:50%;border-left:1px dashed #64748b;pointer-events:none;z-index:5}.print-two-copies:before{content:"✂";position:absolute;top:0;left:50%;transform:translateX(-50%);padding:0 3px;background:#fff;color:#475569;font-size:15px;line-height:16px;z-index:6}
+                    .print-copy{display:block;flex:0 0 calc(50% - 9mm);width:calc(50% - 9mm);min-width:0;max-width:calc(50% - 9mm);break-after:auto;page-break-after:auto;overflow:visible;overflow-wrap:anywhere}
+                    .print-copy-content{display:block;width:100%;min-width:0;padding:0 2.5mm;transform-origin:top left;position:relative;left:0!important;overflow:visible}
+                    .print-copy .print-paper{display:block;width:100%!important;min-width:0!important;min-height:0;height:auto;max-width:100%;overflow:visible}
+                    .print-copy .print-paper-inner{width:100%;min-width:0;height:auto;overflow:visible;padding:${duasVias ? '1mm' : '0'}}
+                    .print-copy .print-brand{padding-bottom:6px;margin-bottom:7px;overflow-wrap:anywhere}
+                    .print-copy .print-brand-name{font-size:19px;line-height:1.15;overflow-wrap:anywhere}
+                    .print-copy .print-brand-sub{font-size:10px;line-height:1.25;margin-top:3px;overflow-wrap:anywhere}
+                    .print-copy .print-os-top{gap:5px;margin-bottom:7px;flex-wrap:wrap}
+                    .print-copy .print-os-number{font-size:14px;line-height:1.25;overflow-wrap:anywhere}
+                    .print-copy .print-status{font-size:9px;line-height:1.2;padding:3px 5px;white-space:normal;overflow-wrap:anywhere}
+                    .print-copy .print-block{border-radius:4px;padding:6px;margin-bottom:6px;min-width:0;overflow:visible}
+                    .print-copy .print-block-title{font-size:11px;line-height:1.2;letter-spacing:.02em;margin-bottom:5px;overflow-wrap:anywhere}
+                    .print-copy .print-row{grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:5px;margin-top:4px;min-width:0}
+                    .print-copy .print-kv{font-size:12px;line-height:1.32;min-width:0;overflow-wrap:anywhere;word-break:normal}
+                    .print-copy .print-kv b{font-size:10px;line-height:1.2;margin-bottom:2px;overflow-wrap:anywhere}
+                    .print-copy .print-service{font-size:12px;line-height:1.32;margin-top:4px!important;overflow-wrap:anywhere;word-break:normal}
+                    .print-copy .print-terms-title{font-size:12px;line-height:1.2;margin:6px 0 4px}
+                    .print-copy .print-terms{font-size:10px;line-height:1.28;overflow-wrap:anywhere;word-break:normal}
+                    .print-copy .print-signatures{gap:7px;margin-top:12px}
+                    .print-copy .print-sign{font-size:10px;line-height:1.25;min-height:25px;padding-top:5px;overflow-wrap:anywhere}
+                    .print-copy .print-footer{font-size:9px;line-height:1.25;margin-top:7px;padding-top:5px;overflow-wrap:anywhere}
+                    @page{margin:${pageMargin};size:${paperSize}}@media print{html,body{width:100%;margin:0;padding:0}.print-paper{width:${paperWidth};max-width:none;box-shadow:none}.print-paper.thermal{width:${paperWidth}}.print-paper-inner{padding:${printFormat === 'thermal58' ? '8px' : (printFormat === 'thermal' ? '11px' : '0')}}.print-format-a4landscape .print-row{grid-template-columns:1fr 1fr}.print-two-copies{display:flex!important;flex-direction:row!important;gap:18mm;width:100%;margin:0 auto;align-items:flex-start;position:relative}.print-two-copies:after{content:"";position:absolute;top:7mm;bottom:0;left:50%;border-left:1px dashed #64748b;pointer-events:none;z-index:5}.print-two-copies:before{content:"✂";position:absolute;top:0;left:50%;transform:translateX(-50%);padding:0 3px;background:#fff;color:#475569;font-size:15px;line-height:16px;z-index:6}.print-copy{display:block;flex:0 0 calc(50% - 9mm);width:calc(50% - 9mm);max-width:calc(50% - 9mm);break-inside:avoid;page-break-inside:avoid;overflow:visible;min-width:0}.print-copy-content{display:block;width:100%;padding:0 2.5mm;box-sizing:border-box;transform-origin:top left;left:0!important;overflow:visible}.print-copy,.print-copy-content,.print-copy .print-paper,.print-copy .print-paper-inner{box-sizing:border-box}.print-copy *{max-width:100%;overflow-wrap:anywhere}.print-copy .print-block,.print-copy .print-terms,.print-copy .print-service{break-inside:auto;page-break-inside:auto}}
+                </style></head><body>${printHtml}<script>window.onload=function(){setTimeout(function(){try{var copies=Array.from(document.querySelectorAll('.print-copy'));if(copies.length){var maxHeight=0;copies.forEach(function(copy){var content=copy.querySelector('.print-copy-content');if(content){content.style.transform='none';copy.style.height='auto';maxHeight=Math.max(maxHeight,content.scrollHeight);}});var available=window.matchMedia('print').matches?660:660;var scale=Math.min(1,available/Math.max(maxHeight,1));copies.forEach(function(copy){var content=copy.querySelector('.print-copy-content');if(content){var h=content.scrollHeight;content.style.transform='scale('+scale+')';copy.style.height=(h*scale)+'px';}});}window.print();}catch(e){console.error('Erro ao ajustar as duas vias:',e);window.print();}},350)}<\/script></body></html>`);
             win.document.close();
         }
 
